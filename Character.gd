@@ -4,12 +4,11 @@ const CHAR_SIZE = 32
 const TILE_SIZE = 32
 const GRAVITY = 1000
 const WALK_SPEED = 300
-const MAX_JUMP_SPEED = 600
+const MAX_JUMP_SPEED = 650
 const JUMP_SPEED = 125
 const MIN_ONAIR_TIME = 0.1
 
 var velocity = Vector2()
-var effective_gravity = GRAVITY
 var on_floor = false
 
 func _ready():
@@ -22,7 +21,7 @@ func _fixed_process( delta ):
 	else:
 		on_floor = false
 	
-	velocity.y += delta * effective_gravity
+	velocity.y += delta * GRAVITY
 	
 	if( Input.is_action_pressed( "ui_left" ) ):
 		velocity.x = -WALK_SPEED
@@ -40,10 +39,9 @@ func _fixed_process( delta ):
 #			# Bot
 #			print("bot")
 #			on_floor = true
-#		if round(get_collider().get_pos().y) ==  round(get_pos().y - CHAR_SIZE):
+#		if round(get_collision_pos().y) ==  round(get_pos().y - CHAR_SIZE):
 #			# Top
-#			print("top")
-#			pass
+#			die()
 #		if round(get_collider().get_pos().x) == round(get_pos().x + TILE_SIZE):
 #			# Right
 #			print("right")
@@ -62,3 +60,9 @@ func _fixed_process( delta ):
 		
 		if n == Vector2(0, -1):
 				on_floor = true
+		elif n == Vector2(0, 1):
+			die()
+
+func die():
+	print("Bleuargh - i'm dead")
+	get_tree().reload_current_scene()
