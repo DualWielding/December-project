@@ -24,4 +24,6 @@ tile_data = IntArray(  )
 
 [node name="Ennemies" type="Node" parent="."]
 
+[node name="Coins" type="Node" parent="."]
+
 
