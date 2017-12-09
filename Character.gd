@@ -111,6 +111,7 @@ func _collide_right():
 # WALKING
 ######################
 
+
 func set_walking(boolean):
 	_walking = boolean
 
