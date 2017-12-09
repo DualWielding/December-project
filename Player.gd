@@ -1,7 +1,9 @@
 extends "res://Character.gd"
 
-onready var attack_area = get_node("AttackArea")
-onready var ap = get_node("AnimationPlayer")
+onready var holding_container = get_node( "HoldingContainer" )
+onready var attack_area = get_node( "AttackArea" )
+onready var pu_area = get_node( "PickUpArea" )
+onready var ap = get_node( "AnimationPlayer" )
 
 const CHAR_SIZE = 64
 const TILE_SIZE = 64
@@ -12,6 +14,9 @@ export(float) var TIME_BETWEEN_ATTACKS = 0.3
 
 var _attacking = false setget set_attacking, is_attacking
 var _jumping = false setget set_jumping, is_jumping
+
+var holding = null
+var can_move = true
 
 func _ready():
 	set_walking(false)
@@ -62,6 +67,11 @@ func attack(direction):
 	set_attacking(true)
 	ap.connect("finished", self, "set_attacking", [false], CONNECT_ONESHOT)
 
+
+func throw():
+	pass
+
+
 #############
 # JUMPING
 #############
@@ -69,19 +79,63 @@ func attack(direction):
 func set_jumping(boolean):
 	_jumping = boolean
 
+
 func is_jumping():
 	return _jumping
 
+
 func jump():
 	set_jumping(true)
+
 
 func die():
 	print("Bleuargh - i'm dead")
 	get_tree().reload_current_scene()
 
+
 func _collide_up():
 	# Hit his head on the brick wall and die
 	die()
 
+
 func _on_AttackArea_body_enter( body ):
 	body.gets_hit( self )
+
+
+############
+# PICKING UP
+############
+
+func pick_up():
+	var areas = pu_area.get_overlapping_areas()
+	
+	if areas.size() == 0:
+		return
+	else:
+		pass #Pick up, play animation and stop moving meanwhile
+	
+	for area in areas:
+		var body = area.get_parent()
+		if area.is_in_group( "item" ):
+			body.get_parent().remove_child( body )
+			hold( body )
+			return
+
+
+func hold( item ):
+	holding = item
+	holding_container.get_children()[0].queue_free()
+	holding_container.add_child( item )
+
+
+#############
+# COLLECTING
+#############
+
+func _on_CollectibleArea_area_enter( area ):
+	collect( area.get_parent() )
+
+func collect( collectible ):
+	if collectible.is_in_group( "coin" ):
+		Player.update_coins( 1 )
+		collectible.queue_free()

@@ -2,9 +2,13 @@
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://Camera.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 32, 32 )
+
+[sub_resource type="RectangleShape2D" id=4]
 
 custom_solver_bias = 0.0
 extents = Vector2( 32, 32 )
@@ -63,6 +67,7 @@ TIME_BETWEEN_ATTACKS = 0.3
 
 [node name="AttackArea" type="Area2D" parent="."]
 
+editor/display_folded = true
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -92,12 +97,76 @@ margin/right = 32.0
 margin/bottom = 32.0
 color = Color( 1, 1, 1, 0.0710196 )
 
+[node name="PickUpArea" type="Area2D" parent="."]
+
+editor/display_folded = true
+input/pickable = true
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision/layers = 2
+collision/mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickUpArea"]
+
+shape = SubResource( 4 )
+trigger = false
+_update_shape_index = 0
+
+[node name="ColorFrame" type="ColorFrame" parent="PickUpArea"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -64.0
+margin/top = -32.0
+margin/right = 64.0
+margin/bottom = 32.0
+color = Color( 1, 0.015625, 0.015625, 0.0710196 )
+
+[node name="CollectibleArea" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision/layers = 4
+collision/mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectibleArea"]
+
+shape = SubResource( 4 )
+trigger = false
+_update_shape_index = 0
+
+[node name="ColorFrame" type="ColorFrame" parent="CollectibleArea"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -64.0
+margin/top = -32.0
+margin/right = 64.0
+margin/bottom = 32.0
+color = Color( 0, 1, 0.0390625, 0.0710196 )
+
 [node name="Sprite" type="Sprite" parent="."]
 
 texture = ExtResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
+offset = Vector2( 100, 0 )
 anchor_mode = 1
 rotating = false
 current = true
@@ -110,12 +179,10 @@ drag_margin/h_enabled = true
 drag_margin/v_enabled = true
 smoothing/enable = true
 smoothing/speed = 5.0
-drag_margin/left = 0.0
-drag_margin/top = 0.0
-drag_margin/right = 0.0
-drag_margin/bottom = 0.0
-script/script = ExtResource( 3 )
-SCREEN_PORTION_ADVANCEMENT = 300
+drag_margin/left = 0.1
+drag_margin/top = 0.1
+drag_margin/right = 0.1
+drag_margin/bottom = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
@@ -135,6 +202,10 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
+[node name="HoldingContainer" type="Node2D" parent="."]
+
 [connection signal="body_enter" from="AttackArea" to="." method="_on_AttackArea_body_enter"]
+
+[connection signal="area_enter" from="CollectibleArea" to="." method="_on_CollectibleArea_area_enter"]
 
 
