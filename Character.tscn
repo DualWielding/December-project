@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://Character.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -7,6 +7,40 @@
 
 custom_solver_bias = 0.0
 extents = Vector2( 32, 32 )
+
+[sub_resource type="Animation" id=2]
+
+resource/name = "attack_left"
+length = 0.6
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackArea:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.3, 0.6 ),
+"transitions": FloatArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+
+resource/name = "attack_right"
+length = 0.6
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackArea:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.3, 0.6 ),
+"transitions": FloatArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 32, 0 ), Vector2( 0, 0 ) ]
+}
 
 [node name="Character" type="KinematicBody2D"]
 
@@ -18,6 +52,41 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
+GRAVITY = 1000
+WALK_SPEED = 300
+JUMP_SPEED = 125
+MAX_JUMP_SPEED = 650
+TIME_BETWEEN_ATTACKS = 0.3
+ONAIR_TIME_BEFORE_DEATH = 1.5
+
+[node name="AttackArea" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="ColorFrame" type="ColorFrame" parent="AttackArea"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -32.0
+margin/top = -32.0
+margin/right = 32.0
+margin/bottom = 32.0
+color = Color( 1, 1, 1, 0.0710196 )
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -47,5 +116,24 @@ drag_margin/bottom = 0.2
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[node name="AttackTimer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/attack_left = SubResource( 2 )
+anims/attack_right = SubResource( 3 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
 
 
