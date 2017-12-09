@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://LevelTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://PatrolEndpoint.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Ennemy.tscn" type="PackedScene" id=4]
 
 [node name="Game" type="Node"]
 
@@ -25,6 +27,18 @@ tile_data = IntArray( 0, 0, 65536, 0, 131072, 0, 131092, 0, 196608, 0, 196616, 0
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 
-transform/pos = Vector2( 543.401, 51.4801 )
+transform/pos = Vector2( 537.681, 97.2401 )
+
+[node name="PatrolEndpoint" parent="." instance=ExtResource( 3 )]
+
+transform/pos = Vector2( 73.4645, 352.14 )
+
+[node name="PatrolEndpoint1" parent="." instance=ExtResource( 3 )]
+
+transform/pos = Vector2( 1327.61, 350.262 )
+
+[node name="Ennemy" parent="." instance=ExtResource( 4 )]
+
+transform/pos = Vector2( 135.051, 348.677 )
 
 
