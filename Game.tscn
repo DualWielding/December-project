@@ -1,14 +1,16 @@
 [gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://TestLevel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://lvl1.tscn" type="PackedScene" id=2]
 
 [node name="Game" type="Node"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 
-transform/pos = Vector2( 484.013, 341.521 )
+transform/pos = Vector2( 60.2214, 219.38 )
+GRAVITY = 1100
+MAX_JUMP_SPEED = 350
 
-[node name="TestLevel" parent="." instance=ExtResource( 2 )]
+[node name="BasicLevel" parent="." instance=ExtResource( 2 )]
 
 
