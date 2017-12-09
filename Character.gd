@@ -7,6 +7,7 @@ const DIRECTION_LEFT = 1
 export(int) var GRAVITY = 1000
 export(int) var WALK_SPEED = 300
 export(float) var ONAIR_TIME_BEFORE_DEATH = 1.5
+export(Vector2) var HIT_KNOCKBACK = Vector2(800, -500)
 
 var onair_time = 0
 var velocity = Vector2()
@@ -27,9 +28,19 @@ func _fixed_process( delta ):
 	
 	if is_walking():
 		if current_direction == DIRECTION_LEFT:
-			velocity.x = -WALK_SPEED
+			if velocity.x > -WALK_SPEED * 1.1 and velocity.x < -WALK_SPEED * 0.9:
+				velocity.x = -WALK_SPEED
+			elif velocity.x < -WALK_SPEED * 1.1:
+				velocity.x -= -WALK_SPEED * 0.1
+			else:
+				velocity.x += -WALK_SPEED * 0.1 
 		elif current_direction == DIRECTION_RIGHT:
-			velocity.x = WALK_SPEED
+			if velocity.x < WALK_SPEED * 1.1 and velocity.x > WALK_SPEED * 0.9:
+				velocity.x = WALK_SPEED
+			elif velocity.x > WALK_SPEED * 1.1:
+				velocity.x -= WALK_SPEED * 0.1
+			else:
+				velocity.x += WALK_SPEED * 0.1 
 	else:
 		velocity.x = 0
 	
@@ -41,6 +52,18 @@ func _fixed_process( delta ):
 
 func die():
 	queue_free()
+
+
+################
+# GETTING HIT
+################
+
+func gets_hit(by):
+	if (get_pos() - by.get_pos()).normalized().x == 1:
+		velocity += HIT_KNOCKBACK
+	else:
+		velocity += Vector2(-HIT_KNOCKBACK.x, HIT_KNOCKBACK.y)
+
 
 ################
 # COLLIDING
