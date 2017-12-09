@@ -1,7 +1,6 @@
 extends "res://Character.gd"
 
 onready var attack_area = get_node("AttackArea")
-onready var attack_timer = get_node("AttackTimer")
 onready var ap = get_node("AnimationPlayer")
 
 const CHAR_SIZE = 64
@@ -83,3 +82,6 @@ func die():
 func _collide_up():
 	# Hit his head on the brick wall and die
 	die()
+
+func _on_AttackArea_body_enter( body ):
+	body.gets_hit( self )

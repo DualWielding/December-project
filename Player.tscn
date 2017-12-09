@@ -55,6 +55,7 @@ script/script = ExtResource( 1 )
 GRAVITY = 1000
 WALK_SPEED = 300
 ONAIR_TIME_BEFORE_DEATH = 1.5
+HIT_KNOCKBACK = Vector2( 800, -500 )
 JUMP_SPEED = 125
 MAX_JUMP_SPEED = 650
 TIME_BETWEEN_ATTACKS = 0.3
@@ -69,6 +70,8 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision/layers = 2
+collision/mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 
@@ -117,13 +120,6 @@ shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="AttackTimer" type="Timer" parent="."]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = false
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 playback/process_mode = 1
@@ -135,5 +131,7 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+
+[connection signal="body_enter" from="AttackArea" to="." method="_on_AttackArea_body_enter"]
 
 
