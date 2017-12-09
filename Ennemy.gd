@@ -11,3 +11,9 @@ func turn():
 		current_direction = DIRECTION_RIGHT
 	else:
 		current_direction = DIRECTION_LEFT
+
+func _collide_left():
+	turn()
+
+func _collide_right():
+	turn()

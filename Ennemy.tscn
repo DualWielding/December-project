@@ -21,6 +21,7 @@ script/script = ExtResource( 1 )
 GRAVITY = 1000
 WALK_SPEED = 120
 ONAIR_TIME_BEFORE_DEATH = 1.5
+HIT_KNOCKBACK = Vector2( 800, -500 )
 
 [node name="Sprite" type="Sprite" parent="."]
 
