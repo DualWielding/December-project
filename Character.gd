@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
-const DIRECTION_RIGHT = 0
-const DIRECTION_LEFT = 1
+const DIRECTION_RIGHT = 1
+const DIRECTION_LEFT = -1
 
 
 export(int) var GRAVITY = 1000

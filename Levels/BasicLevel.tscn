@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://Levels/LevelTileSet.tres" type="TileSet" id=1]
+[ext_resource path="res://Levels/BasicLevel.gd" type="Script" id=2]
 
 [node name="BasicLevel" type="TileMap"]
 
@@ -19,10 +20,13 @@ collision/layers = 1
 collision/mask = 1
 occluder/light_mask = 1
 tile_data = IntArray(  )
+script/script = ExtResource( 2 )
 
 [node name="PatrolEndpoints" type="Node" parent="."]
 
 [node name="Collectibles" type="Node" parent="."]
+
+[node name="Items" type="Node" parent="."]
 
 [node name="Ennemies" type="Node" parent="."]
 

@@ -2,6 +2,8 @@ extends Node
 
 var coins = 0 setget update_coins, get_coins
 
+var current_level = null
+
 signal coins_updated( current_number )
 
 func update_coins( amount ):
