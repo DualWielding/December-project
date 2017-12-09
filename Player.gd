@@ -1,7 +1,6 @@
 extends "res://Character.gd"
 
 onready var attack_area = get_node("AttackArea")
-onready var attack_timer = get_node("AttackTimer")
 onready var ap = get_node("AnimationPlayer")
 
 const CHAR_SIZE = 64
@@ -15,11 +14,17 @@ var _attacking = false setget set_attacking, is_attacking
 var _jumping = false setget set_jumping, is_jumping
 
 func _ready():
+	set_walking(false)
 	set_process_input(true)
 
 func _input(event):
 	if on_floor and event.is_action_pressed( "jump" ):
 		jump()
+	
+	if event.is_action_released( "jump" ):
+		set_jumping(false)
+	elif event.is_action_released( "walk_left" ) or event.is_action_released( "walk_right" ):
+		set_walking(false)
 	
 	if not is_attacking() and Input.is_action_pressed( "attack" ):
 		attack(current_direction)
@@ -29,8 +34,6 @@ func _input(event):
 	elif Input.is_action_pressed( "walk_right" ):
 		current_direction = DIRECTION_RIGHT
 		set_walking(true)
-	else:
-		set_walking(false)
 
 func _fixed_process( delta ):
 	if is_jumping():
@@ -79,3 +82,6 @@ func die():
 func _collide_up():
 	# Hit his head on the brick wall and die
 	die()
+
+func _on_AttackArea_body_enter( body ):
+	body.gets_hit( self )
