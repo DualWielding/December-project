@@ -59,10 +59,7 @@ func die():
 ################
 
 func gets_hit(by):
-	if (get_pos() - by.get_pos()).normalized().x == 1:
-		velocity += HIT_KNOCKBACK
-	else:
-		velocity += Vector2(-HIT_KNOCKBACK.x, HIT_KNOCKBACK.y)
+	pass
 
 
 ################
