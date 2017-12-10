@@ -9,7 +9,7 @@ const CHAR_SIZE = 64
 const TILE_SIZE = 64
 
 export(int) var JUMP_SPEED = 125
-export(int) var MAX_JUMP_SPEED = 650
+export(int) var MAX_JUMP_SPEED = 450
 export(float) var TIME_BETWEEN_ATTACKS = 0.3
 
 var _attacking = false setget set_attacking, is_attacking

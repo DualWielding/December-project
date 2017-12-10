@@ -4,10 +4,10 @@ const DIRECTION_RIGHT = 1
 const DIRECTION_LEFT = -1
 
 
-export(int) var GRAVITY = 1000
+export(int) var GRAVITY = 1100
 export(int) var WALK_SPEED = 300
 export(float) var ONAIR_TIME_BEFORE_DEATH = 1.5
-export(Vector2) var HIT_KNOCKBACK = Vector2(800, -500)
+export(Vector2) var HIT_KNOCKBACK = Vector2(500, -400)
 
 var onair_time = 0
 var velocity = Vector2()
