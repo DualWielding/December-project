@@ -8,29 +8,29 @@ onready var ap = get_node( "AnimationPlayer" )
 const CHAR_SIZE = 64
 const TILE_SIZE = 64
 
-export(int) var JUMP_SPEED = 75
-export(int) var MAX_JUMP_SPEED = 450
-export(float) var TIME_BETWEEN_ATTACKS = 0.3
+export( int ) var JUMP_SPEED = 75
+export( int ) var MAX_JUMP_SPEED = 450
+export( float ) var TIME_BETWEEN_ATTACKS = 0.3
 
 var _attacking = false setget set_attacking, is_attacking
 var _jumping = false setget set_jumping, is_jumping
-
-var _jump_speed = 0
 
 var holding = null
 var can_move = true
 
 
 func _ready():
-	set_walking(false)
-	set_process_input(true)
+	set_walking( false )
+	set_process_input( true )
 
 
-func _input(event):
+func _input( event ):
 	if not is_attacking() and event.is_action_pressed( "pick_up" ):
 		pick_up()
-	elif can_move and on_floor and event.is_action_released( "jump" ):
+	elif on_floor and can_move and event.is_action_pressed( "jump" ):
 		jump()
+	elif event.is_action_released( "jump" ):
+		set_jumping( false )
 	elif not is_attacking() and Input.is_action_pressed( "attack" ):
 		attack( current_direction )
 	
@@ -46,11 +46,11 @@ func _input(event):
 
 func _fixed_process( delta ):
 	
-	if can_move and on_floor and Input.is_action_pressed( "jump" ):
-		if _jump_speed >= MAX_JUMP_SPEED:
-			jump()
+	if is_jumping() and Input.is_action_pressed( "jump" ):
+		if velocity.y > -MAX_JUMP_SPEED:
+			velocity.y -= JUMP_SPEED
 		else:
-			_jump_speed += JUMP_SPEED
+			set_jumping( false )
 
 
 func _collide_bot():
@@ -67,7 +67,7 @@ func _collide_up():
 
 
 func die():
-	print("Bleuargh - i'm dead")
+	print( "Bleuargh - i'm dead" )
 	get_tree().reload_current_scene()
 
 
@@ -83,7 +83,7 @@ func is_attacking():
 	return _attacking
 
 
-func attack(direction):
+func attack( direction ):
 	
 	if holding != null:
 		throw()
@@ -113,7 +113,7 @@ func throw():
 # JUMPING
 #############
 
-func set_jumping(boolean):
+func set_jumping( boolean ):
 	_jumping = boolean
 
 
@@ -122,9 +122,8 @@ func is_jumping():
 
 
 func jump():
-	velocity.y += - _jump_speed
-	_jump_speed = 0
-	set_jumping(true)
+	set_jumping( true )
+	velocity.y -= JUMP_SPEED
 
 
 ############
