@@ -8,12 +8,14 @@ onready var ap = get_node( "AnimationPlayer" )
 const CHAR_SIZE = 64
 const TILE_SIZE = 64
 
-export(int) var JUMP_SPEED = 125
-export(int) var MAX_JUMP_SPEED = 650
+export(int) var JUMP_SPEED = 75
+export(int) var MAX_JUMP_SPEED = 450
 export(float) var TIME_BETWEEN_ATTACKS = 0.3
 
 var _attacking = false setget set_attacking, is_attacking
 var _jumping = false setget set_jumping, is_jumping
+
+var _jump_speed = 0
 
 var holding = null
 var can_move = true
@@ -25,32 +27,40 @@ func _ready():
 
 
 func _input(event):
-	if on_floor and event.is_action_pressed( "jump" ):
-		jump()
-	elif event.is_action_pressed( "pick_up" ):
+	if not is_attacking() and event.is_action_pressed( "pick_up" ):
 		pick_up()
-	elif event.is_action_released( "jump" ):
-		set_jumping(false)
+	elif can_move and on_floor and event.is_action_released( "jump" ):
+		jump()
 	elif not is_attacking() and Input.is_action_pressed( "attack" ):
-		attack(current_direction)
+		attack( current_direction )
 	
 	if Input.is_action_pressed( "walk_left" ) :
 		current_direction = DIRECTION_LEFT
-		set_walking(true)
+		set_walking( true )
 	elif Input.is_action_pressed( "walk_right" ):
 		current_direction = DIRECTION_RIGHT
-		set_walking(true)
+		set_walking( true )
 	else:
-		set_walking(false)
+		set_walking( false )
 
 
 func _fixed_process( delta ):
-	if is_jumping():
-		velocity.y -= JUMP_SPEED
 	
-	if velocity.y < -MAX_JUMP_SPEED:
-		set_jumping(false)
+	if can_move and on_floor and Input.is_action_pressed( "jump" ):
+		if _jump_speed >= MAX_JUMP_SPEED:
+			jump()
+		else:
+			_jump_speed += JUMP_SPEED
 
+
+func _collide_bot():
+	set_jumping( false )
+	on_floor = true # Detect floor, useful for jumping
+	
+	# Detect if fell from high place and die if so
+	if velocity.y >= VELOCITY_DEATH_CEIL:
+		print(velocity.y)
+		die()
 
 func _collide_up():
 	# Hit his head on the brick wall and die
@@ -113,6 +123,8 @@ func is_jumping():
 
 
 func jump():
+	velocity.y += - _jump_speed
+	_jump_speed = 0
 	set_jumping(true)
 
 
@@ -125,15 +137,17 @@ func pick_up():
 	
 	if areas.size() == 0:
 		return
-	else:
-		pass #Pick up, play animation and stop moving meanwhile
+	
+	can_move = false
 	
 	for area in areas:
 		var body = area.get_parent()
 		if body.is_in_group( "item" ):
 			body.get_parent().remove_child( body )
 			hold( body )
-			return
+			break
+	
+	can_move = true
 
 
 func hold( item ):
