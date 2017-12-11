@@ -59,7 +59,6 @@ func _collide_bot():
 	
 	# Detect if fell from high place and die if so
 	if velocity.y >= VELOCITY_DEATH_CEIL:
-		print(velocity.y)
 		die()
 
 func _collide_up():
