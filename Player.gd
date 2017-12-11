@@ -20,6 +20,9 @@ var can_move = true
 
 
 func _ready():
+	
+	Player.character = self
+	
 	set_walking( false )
 	set_process_input( true )
 
@@ -67,8 +70,7 @@ func _collide_up():
 
 
 func die():
-	print( "Bleuargh - i'm dead" )
-	get_tree().reload_current_scene()
+	Player.ui.show_death_screen()
 
 
 #############

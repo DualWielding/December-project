@@ -1,8 +1,13 @@
 extends Node
 
-var coins = 0 setget update_coins, get_coins
+const STARTING_COINS = 20
+const LIFE_COST = 10
 
+var coins = STARTING_COINS setget update_coins, get_coins
 var current_level = null
+
+var character
+var ui
 
 signal coins_updated( current_number )
 
