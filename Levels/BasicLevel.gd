@@ -1,9 +1,10 @@
 extends TileMap
 
+onready var platforms = get_node( "Platforms" )
 onready var items = get_node( "Items" )
 onready var collectibles = get_node( "Collectibles" )
 onready var endpoints = get_node( "PatrolEndpoints" )
-onready var ennemis = get_node( "Ennemies" )
+onready var enemies = get_node( "Enemies" )
 
 
 func _ready():
@@ -35,3 +36,17 @@ func add_collectible( collectible, pos ):
 func remove_collectible( collectible ):
 	collectibles.remove_child( collectible )
 	collectible.queue_free()
+
+
+###############
+# ENNEMIES
+###############
+
+func add_enemy( enemy, pos ):
+	enemies.add_child( enemy)
+	enemy.set_pos( pos )
+
+
+func remove_enemy( enemy ):
+	enemies.remove_child( enemy )
+	enemy.queue_free()

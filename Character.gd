@@ -46,8 +46,10 @@ func _fixed_process( delta ):
 	var motion = velocity * delta
 	move( motion )
 	
-	if is_colliding() :
+	if is_colliding():
 		var collider = get_collider()
+		if collider.is_in_group( "player" ):
+			collider.die()
 		if collider.is_in_group( "moving_platform" ):
 			motion += collider.get_velocity() * delta
 		_handle_kinematic_character_collision( motion )

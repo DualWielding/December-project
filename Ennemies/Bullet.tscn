@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://Ennemies/Ennemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Ennemies/Bullet.gd" type="Script" id=2]
+
+[node name="Bullet" instance=ExtResource( 1 )]
+
+transform/scale = Vector2( 0.4, 0.4 )
+collision/layers = 1024
+collision/mask = 1024
+script/script = ExtResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+rect = Rect2( -10, -10, 20, 20 )
+
+[connection signal="exit_screen" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_exit_screen"]
+
+
