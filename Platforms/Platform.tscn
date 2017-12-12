@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://Platforms/Platform.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[node name="Platform" type="KinematicBody2D"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 16, 0, 0, 3.2, 0, 1.90735e-06 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 1 )
+SPEED = 70
+IS_MOVING_PLATFORM = false
+DIR_CHANGE_TIMER = 1
+DIR_PLATFORM = 0
+
+[node name="Sprite" type="Sprite" parent="."]
+
+transform/scale = Vector2( 5, 1 )
+texture = ExtResource( 2 )
+modulate = Color( 0.0907898, 0.546875, 0.0256348, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+transform/pos = Vector2( 0, 1.90735e-06 )
+transform/scale = Vector2( 16, 3.2 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="DirectionTimer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+

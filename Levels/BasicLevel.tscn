@@ -22,6 +22,8 @@ occluder/light_mask = 1
 tile_data = IntArray(  )
 script/script = ExtResource( 2 )
 
+[node name="Platforms" type="Node" parent="."]
+
 [node name="PatrolEndpoints" type="Node" parent="."]
 
 [node name="Collectibles" type="Node" parent="."]

@@ -16,6 +16,7 @@ var current_direction = DIRECTION_RIGHT
 var _walking = true setget set_walking, is_walking
 
 func _ready():
+	add_to_group( "character" )
 	set_fixed_process( true )
 
 func _fixed_process( delta ):
@@ -46,6 +47,9 @@ func _fixed_process( delta ):
 	move( motion )
 	
 	if is_colliding() :
+		var collider = get_collider()
+		if collider.is_in_group( "moving_platform" ):
+			motion += collider.get_velocity() * delta
 		_handle_kinematic_character_collision( motion )
 
 func die():
@@ -65,6 +69,7 @@ func gets_hit(by):
 ################
 
 func _handle_kinematic_character_collision( motion ):
+	
 	# Used to move properly around obstacles
 	var n = get_collision_normal()
 	
