@@ -14,6 +14,8 @@ var on_floor = false
 var current_direction = DIRECTION_RIGHT
 
 var _walking = true setget set_walking, is_walking
+var is_on_v_moving_platform = false
+var mp = null
 
 func _ready():
 	add_to_group( "character" )
@@ -23,33 +25,24 @@ func _fixed_process( delta ):
 	
 	on_floor = false
 	
-	velocity.y += delta * GRAVITY
+	velocity.x = 0
+	
+	if is_on_v_moving_platform:
+		velocity = mp.get_velocity()
+	else:
+		velocity.y += delta * GRAVITY
 	
 	if is_walking():
 		if current_direction == DIRECTION_LEFT:
-			if velocity.x > -WALK_SPEED * 1.1 and velocity.x < -WALK_SPEED * 0.9:
-				velocity.x = -WALK_SPEED
-			elif velocity.x < -WALK_SPEED * 1.1:
-				velocity.x -= -WALK_SPEED * 0.1
-			else:
-				velocity.x += -WALK_SPEED * 0.1 
+			velocity.x += -WALK_SPEED
 		elif current_direction == DIRECTION_RIGHT:
-			if velocity.x < WALK_SPEED * 1.1 and velocity.x > WALK_SPEED * 0.9:
-				velocity.x = WALK_SPEED
-			elif velocity.x > WALK_SPEED * 1.1:
-				velocity.x -= WALK_SPEED * 0.1
-			else:
-				velocity.x += WALK_SPEED * 0.1 
-	else:
-		velocity.x = 0
+			velocity.x += WALK_SPEED
 	
 	var motion = velocity * delta
 	move( motion )
 	
 	if is_colliding():
 		var collider = get_collider()
-		if collider.is_in_group( "player" ):
-			collider.die()
 		if collider.is_in_group( "moving_platform" ):
 			motion += collider.get_velocity() * delta
 		_handle_kinematic_character_collision( motion )
@@ -91,6 +84,10 @@ func _handle_kinematic_character_collision( motion ):
 
 func _collide_bot():
 	on_floor = true # Detect floor, useful for jumping
+	
+	if get_collider().is_in_group( "v_moving_platform" ):
+		is_on_v_moving_platform = true
+		mp = get_collider()
 	
 	# Detect if fell from high place and die if so
 	if velocity.y >= VELOCITY_DEATH_CEIL:
