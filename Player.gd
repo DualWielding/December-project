@@ -58,6 +58,7 @@ func _fixed_process( delta ):
 
 
 func _collide_bot():
+	if get_collider().is_in_group( "enemy" ): die()
 	set_jumping( false )
 	on_floor = true # Detect floor, useful for jumping
 	
@@ -69,6 +70,11 @@ func _collide_up():
 	# Hit his head on the brick wall and die
 	die()
 
+func _collide_left():
+	if get_collider().is_in_group( "enemy" ): die()
+
+func _collide_right():
+	if get_collider().is_in_group( "enemy" ): die()
 
 func die():
 	Player.ui.show_death_screen()
