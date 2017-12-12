@@ -11,6 +11,7 @@ const TILE_SIZE = 64
 export( int ) var JUMP_SPEED = 75
 export( int ) var MAX_JUMP_SPEED = 450
 export( float ) var TIME_BETWEEN_ATTACKS = 0.3
+export( float ) var ATTACK_ANIMATION_SPEED = 1.0
 
 var _attacking = false setget set_attacking, is_attacking
 var _jumping = false setget set_jumping, is_jumping
@@ -99,9 +100,9 @@ func attack( direction ):
 		return
 	
 	if direction == DIRECTION_LEFT:
-		ap.play( "attack_left" )
+		ap.play( "attack_left", -1, ATTACK_ANIMATION_SPEED )
 	elif direction == DIRECTION_RIGHT:
-		ap.play( "attack_right" )
+		ap.play( "attack_right", -1, ATTACK_ANIMATION_SPEED )
 	set_attacking( true )
 	ap.connect( "finished", self, "set_attacking", [false], CONNECT_ONESHOT )
 

@@ -9,6 +9,9 @@ transform/scale = Vector2( 0.4, 0.4 )
 collision/layers = 1024
 collision/mask = 1024
 script/script = ExtResource( 2 )
+GRAVITY = 0
+WALK_SPEED = 500
+HIT_KNOCKBACK = Vector2( 0, 0 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
