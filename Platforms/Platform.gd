@@ -8,7 +8,7 @@ export( int ) var DIR_CHANGE_TIMER = 1
 export( int, "Left-Right", "Right-Left", "Top-Down", "Bottom-Up" ) var DIR_PLATFORM = 0
 
 var _velocity = Vector2( 0, 0 ) setget set_velocity, get_velocity
-var movement_phase = 0
+var movement_phase = 1
 
 func _ready():
 	add_to_group( "platform" )
@@ -27,6 +27,15 @@ func _ready():
 
 func _fixed_process( delta ):
 	move( _velocity * delta )
+	
+	# Change direction if hitting another platform
+	if is_colliding():
+		var n = get_collision_normal()
+		print(n)
+		if n.x != 0:
+			direction_change()
+			dir_t.stop()
+			dir_t.start()
 
 ##################
 # DIRECTION
@@ -56,6 +65,8 @@ func direction_change():
 			_velocity = Vector2( 0, -SPEED )
 		else:
 			_velocity = Vector2( 0, SPEED )
+	
+	movement_phase = abs(movement_phase - 1)
 
 
 ##################

@@ -20,7 +20,7 @@ collision/margin = 0.08
 script/script = ExtResource( 1 )
 SPEED = 70
 IS_MOVING_PLATFORM = false
-DIR_CHANGE_TIMER = 1
+DIR_CHANGE_TIMER = 7
 DIR_PLATFORM = 0
 
 [node name="Sprite" type="Sprite" parent="."]
