@@ -32,7 +32,7 @@ func _ready():
 func _input( event ):
 	if not is_attacking() and event.is_action_pressed( "pick_up" ):
 		pick_up()
-	elif on_floor and can_move and event.is_action_pressed( "jump" ):
+	elif (is_on_v_moving_platform or on_floor) and can_move and event.is_action_pressed( "jump" ):
 		jump()
 	elif event.is_action_released( "jump" ):
 		set_jumping( false )
@@ -62,6 +62,10 @@ func _collide_bot():
 	if get_collider().is_in_group( "enemy" ): die()
 	set_jumping( false )
 	on_floor = true # Detect floor, useful for jumping
+	
+	if get_collider().is_in_group( "v_moving_platform" ):
+		is_on_v_moving_platform = true
+		mp = get_collider()
 	
 	# Detect if fell from high place and die if so
 	if velocity.y >= VELOCITY_DEATH_CEIL:
@@ -133,6 +137,7 @@ func is_jumping():
 
 
 func jump():
+	is_on_v_moving_platform = false
 	set_jumping( true )
 	velocity.y -= JUMP_SPEED
 
