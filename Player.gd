@@ -20,6 +20,7 @@ var can_move = true
 
 
 func _ready():
+	add_to_group( "player" )
 	
 	Player.character = self
 	
