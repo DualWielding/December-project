@@ -108,7 +108,8 @@ func attack( direction ):
 
 
 func _on_AttackArea_body_enter( body ):
-	body.gets_hit( self )
+	if body.is_in_group( "enemy" ):
+		body.gets_hit( self )
 
 
 func throw():
@@ -141,15 +142,15 @@ func jump():
 ############
 
 func pick_up():
-	var areas = pu_area.get_overlapping_areas()
+	var bodies = pu_area.get_overlapping_bodies()
+	print(bodies)
 	
-	if areas.size() == 0:
+	if bodies.size() == 0:
 		return
 	
 	can_move = false
 	
-	for area in areas:
-		var body = area.get_parent()
+	for body in bodies:
 		if body.is_in_group( "item" ):
 			body.get_parent().remove_child( body )
 			hold( body )
