@@ -163,6 +163,7 @@ func hold( item ):
 func _on_CollectibleArea_area_enter( area ):
 	collect( area.get_parent() )
 
+
 func collect( collectible ):
 	if collectible.is_in_group( "coin" ):
 		Player.update_coins( 1 )
