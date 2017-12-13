@@ -3,6 +3,7 @@ extends KinematicBody2D
 const DIRECTION_RIGHT = 1
 const DIRECTION_LEFT = -1
 
+const TILE_SIZE = Vector2( 64, 64 )
 
 export(int) var GRAVITY = 1000
 export(int) var WALK_SPEED = 300
@@ -12,6 +13,8 @@ export(int) var VELOCITY_DEATH_CEIL = 900
 var velocity = Vector2()
 var on_floor = false
 var current_direction = DIRECTION_RIGHT
+
+var character_size = Vector2( 64, 64 )
 
 var _walking = true setget set_walking, is_walking
 var is_on_v_moving_platform = false
@@ -29,6 +32,7 @@ func _fixed_process( delta ):
 	
 	if is_on_v_moving_platform:
 		velocity = mp.get_velocity()
+		_check_if_still_on_platform()
 	else:
 		velocity.y += delta * GRAVITY
 	
@@ -41,11 +45,15 @@ func _fixed_process( delta ):
 	var motion = velocity * delta
 	move( motion )
 	
+	
 	if is_colliding():
 		var collider = get_collider()
+		# For H moving platforms
 		if collider.is_in_group( "moving_platform" ):
 			motion += collider.get_velocity() * delta
+		
 		_handle_kinematic_character_collision( motion )
+
 
 func die():
 	queue_free()
@@ -88,6 +96,7 @@ func _collide_bot():
 	if get_collider().is_in_group( "v_moving_platform" ):
 		is_on_v_moving_platform = true
 		mp = get_collider()
+		set_pos( Vector2( get_pos().x, mp.get_pos().y - character_size.y ) )
 	
 	# Detect if fell from high place and die if so
 	if velocity.y >= VELOCITY_DEATH_CEIL:
@@ -105,6 +114,11 @@ func _collide_left():
 func _collide_right():
 	pass
 
+
+func _check_if_still_on_platform():
+	if get_global_pos().x + character_size.x < mp.get_global_pos().x - mp.left_size\
+	or get_global_pos().x > mp.get_global_pos().x + mp.right_size:
+		is_on_v_moving_platform = false
 
 ######################
 # WALKING

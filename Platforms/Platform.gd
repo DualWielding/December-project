@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+const TILE_SIZE = Vector2( 64, 64 )
+
 onready var dir_t = get_node( "DirectionTimer" )
 
 export( int ) var SPEED = 70
@@ -10,7 +12,13 @@ export( int, "Left-Right", "Right-Left", "Top-Down", "Bottom-Up" ) var DIR_PLATF
 var _velocity = Vector2( 0, 0 ) setget set_velocity, get_velocity
 var movement_phase = 1
 
+var left_size
+var right_size
+
 func _ready():
+	left_size = TILE_SIZE.x * ( ( get_scale().x - 1 ) / 2 )
+	right_size = TILE_SIZE.x * ( ( get_scale().x + 1 ) / 2 )
+	
 	add_to_group( "platform" )
 	
 	if IS_MOVING_PLATFORM:
@@ -34,14 +42,14 @@ func _fixed_process( delta ):
 	# Change direction if hitting another platform
 	if is_colliding():
 		var n = get_collision_normal()
-		if n.x != 0:
+		if not get_collider().is_in_group( "character" ):
 			direction_change()
 			dir_t.stop()
 			dir_t.start()
-		elif n.y > 0:
-			if get_collider().is_in_group( "character" ):
-				get_collider().move( _velocity * delta * 2 )
-				move( _velocity * delta )
+		else:
+			if n == Vector2( 0, -1 ):
+				get_collider().die()
+
 ##################
 # DIRECTION
 ##################

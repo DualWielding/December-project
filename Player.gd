@@ -5,12 +5,8 @@ onready var attack_area = get_node( "AttackArea" )
 onready var pu_area = get_node( "PickUpArea" )
 onready var ap = get_node( "AnimationPlayer" )
 
-const CHAR_SIZE = 64
-const TILE_SIZE = 64
-
 export( int ) var JUMP_SPEED = 75
 export( int ) var MAX_JUMP_SPEED = 450
-export( float ) var TIME_BETWEEN_ATTACKS = 0.3
 export( float ) var ATTACK_ANIMATION_SPEED = 1.0
 
 var _attacking = false setget set_attacking, is_attacking
@@ -148,7 +144,6 @@ func jump():
 
 func pick_up():
 	var bodies = pu_area.get_overlapping_bodies()
-	print(bodies)
 	
 	if bodies.size() == 0:
 		return

@@ -1,8 +1,5 @@
 extends "res://Character.gd"
 
-const CHAR_SIZE = 64
-const TILE_SIZE = 64
-
 var _lootbox_class = preload( "res://Items/LootBox.tscn" )
 
 func _ready():
