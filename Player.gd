@@ -51,9 +51,10 @@ func _fixed_process( delta ):
 			velocity.y -= JUMP_SPEED
 		else:
 			set_jumping( false )
-	
-	if is_colliding():
-		if get_collider().is_in_group( "enemy" ): die()
+
+func _additional_general_collision_behaviour():
+	if get_collider().is_in_group( "enemy" ):
+		die()
 
 
 func _collide_up():

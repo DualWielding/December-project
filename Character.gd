@@ -89,7 +89,7 @@ func gets_hit(by):
 ################
 
 func _handle_kinematic_character_collision( motion ):
-	
+	_additional_general_collision_behaviour()
 	# Used to move properly around obstacles
 	var n = get_collision_normal()
 	
@@ -105,6 +105,10 @@ func _handle_kinematic_character_collision( motion ):
 	motion = n.slide( motion )
 	velocity = n.slide( velocity ) #Care about that, it might become strange
 	move( motion )
+
+
+func _additional_general_collision_behaviour():
+	pass
 
 
 func _collide_bot():

@@ -2,7 +2,14 @@ extends "res://Character.gd"
 
 var _lootbox_class = preload( "res://Items/LootBox.tscn" )
 
+export( String, "Left", "Right" ) var STARTING_DIRECTION = "Left"
+
 func _ready():
+	if STARTING_DIRECTION == "Left":
+		current_direction = DIRECTION_LEFT
+	else:
+		current_direction = DIRECTION_RIGHT
+	
 	add_to_group( "enemy" )
 	set_fixed_process( true )
 
@@ -15,6 +22,10 @@ func turn():
 		current_direction = DIRECTION_RIGHT
 	else:
 		current_direction = DIRECTION_LEFT
+
+func _additional_general_collision_behaviour():
+	if get_collider().is_in_group( "player" ):
+		get_collider().die()
 
 func _additional_collide_bot():
 	set_walking()
