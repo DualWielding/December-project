@@ -10,6 +10,7 @@ export(int) var WALK_SPEED = 300
 export(Vector2) var HIT_KNOCKBACK = Vector2(800, -500)
 export(int) var VELOCITY_DEATH_CEIL = 900
 
+var global_velocity_death_ceil = VELOCITY_DEATH_CEIL + 1000
 var velocity = Vector2()
 var on_floor = false
 var current_direction = DIRECTION_RIGHT
@@ -33,6 +34,8 @@ func _ready():
 	set_fixed_process( true )
 
 func _fixed_process( delta ):
+	if velocity.y >= global_velocity_death_ceil:
+		die()
 	
 	on_floor = false
 	
