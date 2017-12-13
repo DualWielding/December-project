@@ -28,6 +28,10 @@ func _collide_right():
 func gets_hit( by ):
 	set_kb()
 	velocity.y += HIT_KNOCKBACK.y
+	if get_pos() > by.get_pos():
+		current_direction = DIRECTION_RIGHT
+	else:
+		current_direction = DIRECTION_LEFT
 
 func die():
 	var lb = _lootbox_class.instance()
