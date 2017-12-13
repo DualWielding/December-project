@@ -68,6 +68,7 @@ VELOCITY_DEATH_CEIL = 900
 JUMP_SPEED = 75
 MAX_JUMP_SPEED = 450
 ATTACK_ANIMATION_SPEED = 1.5
+INVULNERABILITY_TIME_ON_ATTACK = 0.3
 
 [node name="AttackArea" type="Area2D" parent="."]
 
@@ -211,6 +212,13 @@ autoplay = ""
 [node name="HoldingContainer" type="Node2D" parent="."]
 
 transform/pos = Vector2( 32, -32 )
+
+[node name="InvulnerabilityTimer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
 
 [connection signal="body_enter" from="AttackArea" to="." method="_on_AttackArea_body_enter"]
 

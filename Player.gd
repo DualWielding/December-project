@@ -4,13 +4,16 @@ onready var holding_container = get_node( "HoldingContainer" )
 onready var attack_area = get_node( "AttackArea" )
 onready var pu_area = get_node( "PickUpArea" )
 onready var ap = get_node( "AnimationPlayer" )
+onready var invul_timer = get_node( "InvulnerabilityTimer" )
 
 export( int ) var JUMP_SPEED = 75
 export( int ) var MAX_JUMP_SPEED = 450
 export( float ) var ATTACK_ANIMATION_SPEED = 1.0
+export( float ) var INVULNERABILITY_TIME_ON_ATTACK = 0.3
 
 var _attacking = false setget set_attacking, is_attacking
 var _jumping = false setget set_jumping, is_jumping
+var _invulnerable = false setget set_invulnerability, is_invulnerable
 
 var holding = null
 
@@ -19,6 +22,8 @@ func _ready():
 	add_to_group( "player" )
 	
 	Player.character = self
+	
+	invul_timer.connect( "timeout", self, "set_invulnerability", [false] )
 	
 	set_idle()
 	set_process_input( true )
@@ -63,7 +68,8 @@ func _collide_up():
 
 
 func die():
-	Player.ui.show_death_screen()
+	if not is_invulnerable():
+		Player.ui.show_death_screen()
 
 
 #############
@@ -95,6 +101,7 @@ func attack( direction ):
 func _on_AttackArea_body_enter( body ):
 	if body.is_in_group( "enemy" ):
 		body.gets_hit( self )
+		set_invulnerability( true, INVULNERABILITY_TIME_ON_ATTACK )
 
 
 func throw():
@@ -169,3 +176,19 @@ func collect( collectible ):
 	if collectible.is_in_group( "coin" ):
 		Player.update_coins( 1 )
 		collectible.queue_free()
+
+
+#############
+# POWER UPS
+#############
+
+func set_invulnerability( boolean, time=0.0 ):
+	if not boolean:
+		_invulnerable = false
+	else:
+		_invulnerable = true
+		invul_timer.set_wait_time( time )
+		invul_timer.start()
+
+func is_invulnerable():
+	return _invulnerable
