@@ -13,12 +13,20 @@ export(int) var VELOCITY_DEATH_CEIL = 900
 var velocity = Vector2()
 var on_floor = false
 var current_direction = DIRECTION_RIGHT
-
 var character_size = Vector2( 64, 64 )
-
-var _walking = true setget set_walking, is_walking
+var can_move = true
+var is_kb = false
 var is_on_v_moving_platform = false
 var mp = null
+
+enum status {
+	picking,
+	walking,
+	idle,
+	kb
+}
+
+var current_status = status.walking
 
 func _ready():
 	add_to_group( "character" )
@@ -41,6 +49,11 @@ func _fixed_process( delta ):
 			velocity.x += -WALK_SPEED
 		elif current_direction == DIRECTION_RIGHT:
 			velocity.x += WALK_SPEED
+	elif is_kb():
+		if current_direction == DIRECTION_LEFT:
+			velocity.x -= HIT_KNOCKBACK.x
+		elif current_direction == DIRECTION_RIGHT:
+			velocity.x += HIT_KNOCKBACK.x
 	
 	var motion = velocity * delta
 	move( motion )
@@ -91,6 +104,7 @@ func _handle_kinematic_character_collision( motion ):
 
 
 func _collide_bot():
+	_additional_collide_bot()
 	on_floor = true # Detect floor, useful for jumping
 	
 	if get_collider().is_in_group( "v_moving_platform" ):
@@ -101,6 +115,10 @@ func _collide_bot():
 	# Detect if fell from high place and die if so
 	if velocity.y >= VELOCITY_DEATH_CEIL:
 		die()
+
+
+func _additional_collide_bot():
+	pass
 
 
 func _collide_up():
@@ -120,13 +138,37 @@ func _check_if_still_on_platform():
 	or get_global_pos().x > mp.get_global_pos().x + mp.right_size:
 		is_on_v_moving_platform = false
 
+
 ######################
 # WALKING
 ######################
 
-
-func set_walking(boolean):
-	_walking = boolean
+func set_walking():
+	current_status = status.walking
 
 func is_walking():
-	return _walking
+	return current_status == status.walking
+
+
+######################
+# KNOCKBACK
+######################
+
+func set_kb():
+	current_status = status.kb
+
+
+func is_kb():
+	return current_status == status.kb
+
+
+######################
+# IDLE
+######################
+
+func set_idle():
+	current_status = status.idle
+
+
+func is_idle():
+	return current_status == status.idle

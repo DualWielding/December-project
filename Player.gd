@@ -13,7 +13,6 @@ var _attacking = false setget set_attacking, is_attacking
 var _jumping = false setget set_jumping, is_jumping
 
 var holding = null
-var can_move = true
 
 
 func _ready():
@@ -21,7 +20,7 @@ func _ready():
 	
 	Player.character = self
 	
-	set_walking( false )
+	set_idle()
 	set_process_input( true )
 
 
@@ -37,12 +36,12 @@ func _input( event ):
 	
 	if Input.is_action_pressed( "walk_left" ) :
 		current_direction = DIRECTION_LEFT
-		set_walking( true )
+		set_walking()
 	elif Input.is_action_pressed( "walk_right" ):
 		current_direction = DIRECTION_RIGHT
-		set_walking( true )
+		set_walking()
 	else:
-		set_walking( false )
+		set_idle()
 
 
 func _fixed_process( delta ):
@@ -52,30 +51,15 @@ func _fixed_process( delta ):
 			velocity.y -= JUMP_SPEED
 		else:
 			set_jumping( false )
-
-
-func _collide_bot():
-	if get_collider().is_in_group( "enemy" ): die()
-	set_jumping( false )
-	on_floor = true # Detect floor, useful for jumping
 	
-	if get_collider().is_in_group( "v_moving_platform" ):
-		is_on_v_moving_platform = true
-		mp = get_collider()
-	
-	# Detect if fell from high place and die if so
-	if velocity.y >= VELOCITY_DEATH_CEIL:
-		die()
+	if is_colliding():
+		if get_collider().is_in_group( "enemy" ): die()
+
 
 func _collide_up():
 	# Hit his head on the brick wall and die
 	die()
 
-func _collide_left():
-	if get_collider().is_in_group( "enemy" ): die()
-
-func _collide_right():
-	if get_collider().is_in_group( "enemy" ): die()
 
 func die():
 	Player.ui.show_death_screen()
