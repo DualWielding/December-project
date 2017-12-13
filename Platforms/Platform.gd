@@ -62,14 +62,14 @@ func direction_change():
 			_velocity = Vector2( SPEED, 0 )
 	elif DIR_PLATFORM == 2:
 		if movement_phase == 0:
-			_velocity = Vector2( 0, SPEED )
-		else:
 			_velocity = Vector2( 0, -SPEED )
+		else:
+			_velocity = Vector2( 0, SPEED )
 	elif DIR_PLATFORM == 3:
 		if movement_phase == 0:
-			_velocity = Vector2( 0, -SPEED )
-		else:
 			_velocity = Vector2( 0, SPEED )
+		else:
+			_velocity = Vector2( 0, -SPEED )
 	
 	movement_phase = abs(movement_phase - 1)
 
