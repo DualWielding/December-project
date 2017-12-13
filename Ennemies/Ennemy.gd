@@ -4,6 +4,11 @@ var _lootbox_class = preload( "res://Items/LootBox.tscn" )
 
 func _ready():
 	add_to_group( "enemy" )
+	set_fixed_process( true )
+
+func _fixed_process(delta):
+	if is_colliding() and get_collider().is_in_group( "player" ):
+		get_collider().die()
 
 func turn():
 	if current_direction == DIRECTION_LEFT:
@@ -23,7 +28,6 @@ func _collide_right():
 func gets_hit( by ):
 	set_kb()
 	velocity.y += HIT_KNOCKBACK.y
-	turn()
 
 func die():
 	var lb = _lootbox_class.instance()
