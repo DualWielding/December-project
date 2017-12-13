@@ -67,7 +67,6 @@ HIT_KNOCKBACK = Vector2( 800, -500 )
 VELOCITY_DEATH_CEIL = 900
 JUMP_SPEED = 75
 MAX_JUMP_SPEED = 450
-TIME_BETWEEN_ATTACKS = 0.3
 ATTACK_ANIMATION_SPEED = 1.5
 
 [node name="AttackArea" type="Area2D" parent="."]
@@ -136,6 +135,7 @@ color = Color( 1, 0.015625, 0.015625, 0.0710196 )
 
 [node name="CollectibleArea" type="Area2D" parent="."]
 
+editor/display_folded = true
 input/pickable = true
 shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )

@@ -12,6 +12,7 @@ script/script = ExtResource( 2 )
 GRAVITY = 0
 WALK_SPEED = 500
 HIT_KNOCKBACK = Vector2( 0, 0 )
+STARTING_DIRECTION = "Left"
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
