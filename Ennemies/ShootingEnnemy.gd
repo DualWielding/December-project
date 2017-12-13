@@ -31,7 +31,7 @@ func shoot():
 		var pos = get_pos()
 		
 		if current_direction == DIRECTION_RIGHT:
-			pos.x += CHAR_SIZE
+			pos.x += character_size
 		
 		Player.current_level.add_enemy( b, get_pos() )
 		at.start()
