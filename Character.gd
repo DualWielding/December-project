@@ -41,9 +41,10 @@ func _fixed_process( delta ):
 	
 	velocity.x = 0
 	
+	# For v moving platform
 	if is_on_v_moving_platform:
 		velocity = mp.get_velocity()
-		_check_if_still_on_platform()
+		_check_if_still_on_platform() # Used to fall down from a v moving platform
 	else:
 		velocity.y += delta * GRAVITY
 	
