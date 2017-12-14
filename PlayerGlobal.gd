@@ -8,6 +8,7 @@ var current_level = null
 
 var character
 var ui
+var checkpoint = null #DO NOT FORGET TO CLEAN THE CHECKPOINT AT LVL CHANGE
 
 signal coins_updated( current_number )
 

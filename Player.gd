@@ -28,6 +28,9 @@ func _ready():
 	
 	set_idle()
 	set_process_input( true )
+	
+	if Player.checkpoint != null:
+		set_pos( Player.checkpoint )
 
 
 func _input( event ):
@@ -42,6 +45,8 @@ func _input( event ):
 		attack( current_direction )
 	elif event.is_action_pressed( "use" ):
 		use_item()
+	elif event.is_action_pressed( "save_game" ):
+		activate_checkpoint()
 
 
 func _fixed_process( delta ):
@@ -203,6 +208,7 @@ func use_item():
 		holding_container.remove_child( item )
 		item.queue_free()
 
+
 #############
 # POWER UPS
 #############
@@ -215,10 +221,25 @@ func set_invulnerability( boolean, time=0.0 ):
 		invul_timer.set_wait_time( time )
 		invul_timer.start()
 
+
 func is_invulnerable():
 	return _invulnerable
+
 
 func get_random_power_up():
 	var rand = randi() % 1
 	if rand == 0:
 		laser.activate( current_direction )
+
+
+#############
+# SAVING
+#############
+
+func activate_checkpoint():
+	var areas = pu_area.get_overlapping_areas()
+	
+	for area in areas:
+		if area.is_in_group( "checkpoint" ):
+			area.activate()
+			return
