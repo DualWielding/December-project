@@ -12,9 +12,9 @@ var _reloaded = true
 
 func _ready():
 	if STARTING_DIRECTION == "Left":
-		current_direction = DIRECTION_LEFT
+		current_direction = Directions.left
 	else:
-		current_direction = DIRECTION_RIGHT
+		current_direction = Directions.right
 	_set_ray()
 	
 	at.set_wait_time( RELOAD_TIME )
@@ -34,7 +34,7 @@ func shoot():
 		
 		var pos = get_pos()
 		
-		if current_direction == DIRECTION_RIGHT:
+		if current_direction == Directions.right:
 			pos.x += character_size.x
 		
 		Player.current_level.add_enemy( b, pos )
@@ -43,17 +43,17 @@ func shoot():
 		_reloaded = false
 
 func turn():
-	if current_direction == DIRECTION_LEFT:
-		current_direction = DIRECTION_RIGHT
+	if current_direction == Directions.left:
+		current_direction = Directions.right
 	else:
-		current_direction = DIRECTION_LEFT
+		current_direction = Directions.left
 	_set_ray()
 
 func reload():
 	_reloaded = true
 
 func _set_ray():
-	if current_direction == DIRECTION_RIGHT:
+	if current_direction == Directions.right:
 		los.set_cast_to( Vector2( LOS_LENGTH, 0 ) )
-	elif current_direction == DIRECTION_LEFT:
+	elif current_direction == Directions.left:
 		los.set_cast_to( Vector2( -LOS_LENGTH, 0 ) )

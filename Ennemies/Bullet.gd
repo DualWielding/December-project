@@ -5,3 +5,6 @@ func _ready():
 
 func _on_VisibilityNotifier2D_exit_screen():
 	queue_free()
+
+func die():
+	queue_free()

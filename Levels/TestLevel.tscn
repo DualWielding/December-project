@@ -21,7 +21,7 @@ DIR_CHANGE_TIMER = 10
 
 [node name="Platform 2" parent="Platforms" instance=ExtResource( 2 )]
 
-transform/pos = Vector2( 320, -64 )
+transform/pos = Vector2( 1056, -160 )
 SPEED = 100
 IS_MOVING_PLATFORM = true
 DIR_PLATFORM = 2
@@ -61,20 +61,21 @@ transform/pos = Vector2( 1376, 640 )
 [node name="LootBox" parent="Items" instance=ExtResource( 5 )]
 
 transform/pos = Vector2( 448, 32 )
+COST_TO_OPEN = 4
 
 [node name="Ennemy" parent="Enemies" instance=ExtResource( 6 )]
 
 transform/pos = Vector2( 1088, 640 )
 WALK_SPEED = 150
+STARTING_DIRECTION = "Left"
 
 [node name="ShootingEnnemy" parent="Enemies" instance=ExtResource( 7 )]
 
-transform/pos = Vector2( 704, 0 )
-transform/rot = 180.0
+transform/pos = Vector2( 704, 640 )
 WALK_SPEED = 0
 
 [node name="Player" parent="."]
 
-transform/pos = Vector2( 192, -224 )
+transform/pos = Vector2( 352, 32 )
 
 

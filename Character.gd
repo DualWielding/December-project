@@ -1,8 +1,5 @@
 extends KinematicBody2D
 
-const DIRECTION_RIGHT = 1
-const DIRECTION_LEFT = -1
-
 const TILE_SIZE = Vector2( 64, 64 )
 
 export(int) var GRAVITY = 1000
@@ -13,7 +10,7 @@ export(int) var VELOCITY_DEATH_CEIL = 900
 var global_velocity_death_ceil = VELOCITY_DEATH_CEIL + 1000
 var velocity = Vector2()
 var on_floor = false
-var current_direction = DIRECTION_RIGHT
+var current_direction = Directions.right
 var character_size = Vector2( 64, 64 )
 var can_move = true
 var is_kb = false
@@ -21,6 +18,7 @@ var is_on_v_moving_platform = false
 var mp = null
 
 enum status {
+	disabled,
 	picking,
 	walking,
 	idle,
@@ -49,14 +47,14 @@ func _fixed_process( delta ):
 		velocity.y += delta * GRAVITY
 	
 	if is_walking():
-		if current_direction == DIRECTION_LEFT:
+		if current_direction == Directions.left:
 			velocity.x += -WALK_SPEED
-		elif current_direction == DIRECTION_RIGHT:
+		elif current_direction == Directions.right:
 			velocity.x += WALK_SPEED
 	elif is_kb():
-		if current_direction == DIRECTION_LEFT:
+		if current_direction == Directions.left:
 			velocity.x -= HIT_KNOCKBACK.x
-		elif current_direction == DIRECTION_RIGHT:
+		elif current_direction == Directions.right:
 			velocity.x += HIT_KNOCKBACK.x
 	
 	var motion = velocity * delta
@@ -180,3 +178,15 @@ func set_idle():
 
 func is_idle():
 	return current_status == status.idle
+
+
+######################
+# DISABLED
+######################
+
+func set_disabled():
+	current_status = status.disabled
+
+
+func is_disabled():
+	return current_status == status.disabled

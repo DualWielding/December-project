@@ -38,3 +38,6 @@ func threw_to( direction ):
 	configure_for_hitting_ennemies()
 	self.direction = direction
 	flying = true
+
+func use( by ):
+	pass

@@ -6,9 +6,9 @@ export( String, "Left", "Right" ) var STARTING_DIRECTION = "Left"
 
 func _ready():
 	if STARTING_DIRECTION == "Left":
-		current_direction = DIRECTION_LEFT
+		current_direction = Directions.left
 	else:
-		current_direction = DIRECTION_RIGHT
+		current_direction = Directions.right
 	
 	add_to_group( "enemy" )
 	set_fixed_process( true )
@@ -18,10 +18,10 @@ func _fixed_process(delta):
 		get_collider().die()
 
 func turn():
-	if current_direction == DIRECTION_LEFT:
-		current_direction = DIRECTION_RIGHT
+	if current_direction == Directions.left:
+		current_direction = Directions.right
 	else:
-		current_direction = DIRECTION_LEFT
+		current_direction = Directions.left
 
 func _additional_general_collision_behaviour():
 	if get_collider().is_in_group( "player" ):
@@ -40,9 +40,9 @@ func gets_hit( by ):
 	set_kb()
 	velocity.y += HIT_KNOCKBACK.y
 	if get_pos() > by.get_pos():
-		current_direction = DIRECTION_RIGHT
+		current_direction = Directions.right
 	else:
-		current_direction = DIRECTION_LEFT
+		current_direction = Directions.left
 
 func die():
 	var lb = _lootbox_class.instance()

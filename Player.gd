@@ -5,6 +5,7 @@ onready var attack_area = get_node( "AttackArea" )
 onready var pu_area = get_node( "PickUpArea" )
 onready var ap = get_node( "AnimationPlayer" )
 onready var invul_timer = get_node( "InvulnerabilityTimer" )
+onready var laser = get_node( "Laser" )
 
 export( int ) var JUMP_SPEED = 75
 export( int ) var MAX_JUMP_SPEED = 450
@@ -30,26 +31,33 @@ func _ready():
 
 
 func _input( event ):
+	if is_disabled():
+		return
+	
 	if not is_attacking() and event.is_action_pressed( "pick_up" ):
 		pick_up()
 	elif (is_on_v_moving_platform or on_floor) and can_move and event.is_action_pressed( "jump" ):
 		jump()
 	elif event.is_action_released( "jump" ):
 		set_jumping( false )
-	elif not is_attacking() and Input.is_action_pressed( "attack" ):
+	elif not is_attacking() and event.is_action_pressed( "attack" ):
 		attack( current_direction )
-	
-	if Input.is_action_pressed( "walk_left" ) :
-		current_direction = DIRECTION_LEFT
-		set_walking()
-	elif Input.is_action_pressed( "walk_right" ):
-		current_direction = DIRECTION_RIGHT
-		set_walking()
-	else:
-		set_idle()
+	elif event.is_action_pressed( "use" ):
+		use_item()
 
 
 func _fixed_process( delta ):
+	if is_disabled():
+		return
+	
+	if Input.is_action_pressed( "walk_left" ):
+		current_direction = Directions.left
+		set_walking()
+	elif Input.is_action_pressed( "walk_right" ):
+		current_direction = Directions.right
+		set_walking()
+	else:
+		set_idle()
 	
 	if is_jumping() and Input.is_action_pressed( "jump" ):
 		if velocity.y > -MAX_JUMP_SPEED:
@@ -90,9 +98,9 @@ func attack( direction ):
 		throw()
 		return
 	
-	if direction == DIRECTION_LEFT:
+	if direction == Directions.left:
 		ap.play( "attack_left", -1, ATTACK_ANIMATION_SPEED )
-	elif direction == DIRECTION_RIGHT:
+	elif direction == Directions.right:
 		ap.play( "attack_right", -1, ATTACK_ANIMATION_SPEED )
 	set_attacking( true )
 	ap.connect( "finished", self, "set_attacking", [false], CONNECT_ONESHOT )
@@ -164,6 +172,9 @@ func hold( item ):
 	item.configure_for_holding()
 
 
+func has_item():
+	return holding != null
+
 #############
 # COLLECTING
 #############
@@ -179,6 +190,17 @@ func collect( collectible ):
 
 
 #############
+# USING
+#############
+
+func use_item():
+	if has_item():
+		var item = holding_container.get_children()[0]
+		item.use()
+		holding_container.remove_child( item )
+		item.queue_free()
+
+#############
 # POWER UPS
 #############
 
@@ -192,3 +214,8 @@ func set_invulnerability( boolean, time=0.0 ):
 
 func is_invulnerable():
 	return _invulnerable
+
+func get_random_power_up():
+	var rand = randi() % 1
+	if rand == 0:
+		laser.activate( current_direction )

@@ -12,8 +12,16 @@ var ui
 signal coins_updated( current_number )
 
 func update_coins( amount ):
-	coins += amount
-	emit_signal( "coins_updated", get_coins() )
+	if coins + amount >= 0:
+		coins += amount
+		emit_signal( "coins_updated", get_coins() )
+		return true
+	else:
+		buy_coins()
+		return false
+
+func buy_coins():
+	pass #TODO
 
 func get_coins():
 	return coins

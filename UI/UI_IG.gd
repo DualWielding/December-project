@@ -42,9 +42,6 @@ func _on_Quit_pressed():
 
 
 func _on_Retry_pressed():
-	for coin in range(Player.LIFE_COST):
-		Player.update_coins( - 1 )
-	
-	get_tree().set_pause( false )
-	
-	get_tree().reload_current_scene()
+	if Player.update_coins( -Player.LIFE_COST ):
+		get_tree().set_pause( false )
+		get_tree().reload_current_scene()

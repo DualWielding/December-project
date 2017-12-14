@@ -6,8 +6,8 @@
 [node name="Bullet" instance=ExtResource( 1 )]
 
 transform/scale = Vector2( 0.4, 0.4 )
-collision/layers = 1024
-collision/mask = 1024
+collision/layers = 6144
+collision/mask = 6144
 script/script = ExtResource( 2 )
 GRAVITY = 0
 WALK_SPEED = 500

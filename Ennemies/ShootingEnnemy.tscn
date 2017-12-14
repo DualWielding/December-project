@@ -7,6 +7,7 @@
 
 script/script = ExtResource( 2 )
 WALK_SPEED = 300
+STARTING_DIRECTION = "Left"
 LOS_LENGTH = 500
 RELOAD_TIME = 1
 
