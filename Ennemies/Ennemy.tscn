@@ -14,14 +14,15 @@ input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 3.07692, 0, 0, 3.07692, 2.02656e-06, 1.19209e-06 )
 shapes/0/trigger = false
-collision/layers = 3
-collision/mask = 3
+collision/layers = 2
+collision/mask = 27
 collision/margin = 0.08
 script/script = ExtResource( 1 )
 GRAVITY = 1000
 WALK_SPEED = 120
 HIT_KNOCKBACK = Vector2( 800, -500 )
 VELOCITY_DEATH_CEIL = 900
+STARTING_DIRECTION = "Left"
 
 [node name="Sprite" type="Sprite" parent="."]
 

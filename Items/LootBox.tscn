@@ -9,6 +9,7 @@
 transform/rot = 45.0
 transform/scale = Vector2( 0.6, 0.6 )
 script/script = ExtResource( 2 )
+COST_TO_OPEN = 4
 
 [node name="Sprite" parent="."]
 

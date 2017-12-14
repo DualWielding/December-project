@@ -27,12 +27,11 @@ func _fixed_process( delta ):
 		queue_free()
 
 func configure_for_holding():
-	set_collision_mask_bit( 3,false )
-	set_layer_mask_bit( 3, false )
+	set_collision_mask_bit( 11, false )
 
 func configure_for_hitting_ennemies():
 	set_collision_mask_bit( 1, true )
-	set_layer_mask_bit( 1, true )
+	set_collision_mask_bit( 4, true )
 
 func threw_to( direction ):
 	configure_for_hitting_ennemies()

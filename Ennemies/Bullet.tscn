@@ -1,18 +1,34 @@
 [gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://Ennemies/Ennemy.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Ennemies/Bullet.gd" type="Script" id=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends \"res://Ennemies/Ennemy.gd\"
+
+func _ready():
+	add_to_group( \"bullet\" )
+	set_fixed_process( true )
+
+func _fixed_process():
+	if is_colliding():
+		die()
+
+func _on_VisibilityNotifier2D_exit_screen():
+	queue_free()
+
+func die():
+	queue_free()"
 
 [node name="Bullet" instance=ExtResource( 1 )]
 
 transform/scale = Vector2( 0.4, 0.4 )
-collision/layers = 6144
-collision/mask = 6144
-script/script = ExtResource( 2 )
+collision/layers = 8
+collision/mask = 3
+script/script = SubResource( 1 )
 GRAVITY = 0
 WALK_SPEED = 500
 HIT_KNOCKBACK = Vector2( 0, 0 )
-STARTING_DIRECTION = "Left"
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 

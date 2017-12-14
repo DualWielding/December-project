@@ -36,8 +36,6 @@ func _input( event ):
 	
 	if not is_attacking() and event.is_action_pressed( "pick_up" ):
 		pick_up()
-	elif (is_on_v_moving_platform or on_floor) and can_move and event.is_action_pressed( "jump" ):
-		jump()
 	elif event.is_action_released( "jump" ):
 		set_jumping( false )
 	elif not is_attacking() and event.is_action_pressed( "attack" ):
@@ -49,6 +47,9 @@ func _input( event ):
 func _fixed_process( delta ):
 	if is_disabled():
 		return
+	
+	elif (is_on_v_moving_platform or on_floor) and can_move and Input.is_action_pressed( "jump" ):
+		jump()
 	
 	if Input.is_action_pressed( "walk_left" ):
 		current_direction = Directions.left
@@ -110,6 +111,8 @@ func _on_AttackArea_body_enter( body ):
 	if body.is_in_group( "enemy" ):
 		body.gets_hit( self )
 		set_invulnerability( true, INVULNERABILITY_TIME_ON_ATTACK )
+	elif body.is_in_group( "bullet" ):
+		body.change_direction()
 
 
 func throw():

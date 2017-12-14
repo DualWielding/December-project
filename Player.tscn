@@ -97,8 +97,8 @@ input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
-collision/layers = 3073
-collision/mask = 3073
+collision/layers = 1
+collision/mask = 26
 collision/margin = 0.08
 script/script = ExtResource( 1 )
 GRAVITY = 1000
@@ -121,8 +121,8 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-collision/layers = 2
-collision/mask = 2
+collision/layers = 1024
+collision/mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 
@@ -153,8 +153,8 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-collision/layers = 8
-collision/mask = 8
+collision/layers = 2048
+collision/mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickUpArea"]
 
