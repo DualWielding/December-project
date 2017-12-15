@@ -24,7 +24,7 @@ func _fixed_process( delta):
 	
 	if is_colliding():
 		var collider = get_collider()
-		if collider.is_in_group( "player" ) or collider.is_in_group( "enemy" ):
+		if collider.is_in_group( "character" ):
 			collider.die()
 		queue_free()
 

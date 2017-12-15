@@ -26,7 +26,7 @@ func _ready():
 	_set_ray()
 
 func _fixed_process(delta):
-	if los.is_colliding() and los.get_collider().is_in_group( "player" ):
+	if is_walking() and los.is_colliding() and los.get_collider().is_in_group( "player" ):
 		shoot()
 
 func shoot():

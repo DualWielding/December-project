@@ -63,6 +63,8 @@ func _fixed_process( delta ):
 	
 	if is_colliding():
 		var collider = get_collider()
+		if collider.is_in_group( "bullet" ):
+			die()
 		# For H moving platforms
 		if collider.is_in_group( "moving_platform" ):
 			motion += collider.get_velocity() * delta
