@@ -44,9 +44,8 @@ func _input( event ):
 	elif not is_attacking() and event.is_action_pressed( "attack" ):
 		attack( current_direction )
 	elif event.is_action_pressed( "use" ):
-		use_item()
-	elif event.is_action_pressed( "save_game" ):
-		activate_checkpoint()
+		if not activate_checkpoint():
+			use_item()
 
 
 func _fixed_process( delta ):
@@ -236,10 +235,13 @@ func get_random_power_up():
 # SAVING
 #############
 
+
 func activate_checkpoint():
 	var areas = pu_area.get_overlapping_areas()
 	
 	for area in areas:
 		if area.is_in_group( "checkpoint" ):
 			area.activate()
-			return
+			return true
+	
+	return false
