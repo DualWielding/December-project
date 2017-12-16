@@ -37,15 +37,15 @@ func _input( event ):
 	if is_disabled():
 		return
 	
-	if not is_attacking() and event.is_action_pressed( "pick_up" ):
-		pick_up()
-	elif event.is_action_released( "jump" ):
+	if event.is_action_released( "jump" ):
 		set_jumping( false )
 	elif not is_attacking() and event.is_action_pressed( "attack" ):
 		attack( current_direction )
-	elif event.is_action_pressed( "use" ):
-		if not activate_checkpoint():
+	elif event.is_action_pressed( "use" ) and not is_attacking():
+		if not pick_up() and not activate_checkpoint():
 			use_item()
+	elif event.is_action_pressed( "use_power" ):
+		use_power_up()
 
 
 func _fixed_process( delta ):
@@ -153,7 +153,7 @@ func pick_up():
 	var bodies = pu_area.get_overlapping_bodies()
 	
 	if bodies.size() == 0:
-		return
+		return false
 	
 	can_move = false
 	
@@ -162,8 +162,10 @@ func pick_up():
 			body.get_parent().remove_child( body )
 			hold( body )
 			break
+		return false
 	
 	can_move = true
+	return true
 
 
 func hold( item ):
@@ -206,6 +208,7 @@ func use_item():
 		item.use()
 		holding_container.remove_child( item )
 		item.queue_free()
+		holding = null
 
 
 #############
@@ -227,9 +230,16 @@ func is_invulnerable():
 
 func get_random_power_up():
 	var rand = randi() % 1
+	var pu
 	if rand == 0:
-		laser.activate( current_direction )
+		pu = Player.power_ups.laser
+	
+	Player.set_power_up( pu )
 
+func use_power_up():
+	if Player.get_power_up() == Player.power_ups.laser:
+		laser.activate( current_direction )
+		Player.set_power_up( Player.power_ups.none )
 
 #############
 # SAVING
@@ -241,7 +251,6 @@ func activate_checkpoint():
 	
 	for area in areas:
 		if area.is_in_group( "checkpoint" ):
-			area.activate()
-			return true
+			return area.activate()
 	
 	return false

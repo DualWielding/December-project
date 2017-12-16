@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://UI/UI_IG.gd" type="Script" id=1]
+
+[sub_resource type="ImageTexture" id=1]
+
+flags = 7
+image = Image()
+size = Vector2( 0, 0 )
+storage = 0
+lossy_quality = 0.7
 
 [node name="UI_IG" type="CanvasLayer"]
 
@@ -73,6 +81,20 @@ enabled_focus_mode = 2
 shortcut = null
 text = "Quit"
 flat = false
+
+[node name="PowerUpWrapper" type="TextureFrame" parent="."]
+
+rect/scale = Vector2( 0.1, 0.1 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 224.0
+margin/top = 32.0
+margin/right = 736.0
+margin/bottom = 544.0
+texture = SubResource( 1 )
+stretch_mode = 0
 
 [connection signal="pressed" from="DeathScreen/Retry" to="." method="_on_Retry_pressed"]
 

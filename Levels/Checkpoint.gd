@@ -6,5 +6,8 @@ func _ready():
 	add_to_group( "checkpoint" )
 
 func activate():
-	if Player.update_coins( -SAVE_COST ):
+	if Player.checkpoint != get_pos() and Player.update_coins( -SAVE_COST ):
 		Player.checkpoint = get_pos()
+		return true
+	else:
+		return false
