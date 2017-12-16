@@ -53,8 +53,10 @@ func _input( event ):
 	
 	if event.is_action_released( "jump" ):
 		set_jumping( false )
-	elif not is_attacking() and event.is_action_pressed( "attack" ):
-		attack( current_direction )
+	elif not is_attacking() and event.is_action_pressed( "attack_left" ):
+		attack_left()
+	elif not is_attacking() and event.is_action_pressed( "attack_right" ):
+		attack_right()
 	elif event.is_action_pressed( "use" ) and not is_attacking():
 		if not pick_up() and not activate_checkpoint():
 			use_item()
@@ -113,17 +115,21 @@ func set_attacking(boolean):
 func is_attacking():
 	return _attacking
 
-
-func attack( direction ):
-	
+func attack_left():
 	if holding != null:
-		throw()
+		throw( Directions.left )
 		return
-	
-	if direction == Directions.left:
-		ap.play( "attack_left", -1, ATTACK_ANIMATION_SPEED )
-	elif direction == Directions.right:
-		ap.play( "attack_right", -1, ATTACK_ANIMATION_SPEED )
+	attack( "attack_left" )
+
+func attack_right():
+	if holding != null:
+		throw( Directions.right )
+		return
+	attack( "attack_right" )
+
+
+func attack( animation_name ):
+	ap.play( animation_name, -1, ATTACK_ANIMATION_SPEED )
 	set_attacking( true )
 	ap.connect( "finished", self, "set_attacking", [false], CONNECT_ONESHOT )
 
@@ -140,11 +146,11 @@ func _on_AttackArea_body_enter( body ):
 		body.change_direction()
 
 
-func throw():
+func throw( direction ):
 	var item = holding_container.get_children()[0]
 	holding_container.remove_child( item )
 	Player.current_level.add_item( item, get_pos() + holding_container.get_pos() )
-	item.threw_to( Vector2( current_direction, 0 ) )
+	item.threw_to( Vector2( direction, 0 ) )
 	holding = null
 
 
