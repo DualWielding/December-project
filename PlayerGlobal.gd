@@ -1,6 +1,6 @@
 extends Node
 
-const STARTING_COINS = 20
+const STARTING_COINS = 40
 const LIFE_COST = 10
 
 var coins = STARTING_COINS setget update_coins, get_coins
