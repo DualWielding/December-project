@@ -1,11 +1,14 @@
 extends KinematicBody2D
 
+var bullet_scene = preload( "res://Bullet.tscn" )
+
 const TILE_SIZE = Vector2( 64, 64 )
 
 export(int) var GRAVITY = 1000
 export(int) var WALK_SPEED = 300
 export(Vector2) var HIT_KNOCKBACK = Vector2(800, -500)
 export(int) var VELOCITY_DEATH_CEIL = 900
+export( int ) var BULLET_SPEED = 300
 
 var global_velocity_death_ceil = VELOCITY_DEATH_CEIL + 1000
 var velocity = Vector2()
@@ -192,3 +195,20 @@ func set_disabled():
 
 func is_disabled():
 	return current_status == status.disabled
+
+
+######################
+# MISC
+######################
+
+func pop_bullet():
+	var b = bullet_scene.instance()
+	b.init( current_direction, BULLET_SPEED )
+	var pos = get_pos()
+	
+	if current_direction == Directions.right:
+		pos.x += character_size.x
+	else:
+		pos.x -= character_size.x
+	
+	Player.current_level.add_enemy( b, pos )

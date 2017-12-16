@@ -8,7 +8,10 @@ onready var power_up_wrapper = get_node( "PowerUpWrapper" )
 var _window_size
 
 var power_ups_icons = {
-	Player.power_ups.laser: preload("res://Assets/Icons/ringed-beam.png"),
+	Player.power_ups.laser: preload("res://Assets/Icons/FireWithMyLaza.png"),
+	Player.power_ups.life: preload("res://Assets/Icons/extraLife.png"),
+	Player.power_ups.gun: preload("res://Assets/Icons/overpowerdGun.png"),
+	Player.power_ups.frenzy: preload("res://Assets/Icons/onePunchFrenzy.png"),
 	Player.none: ImageTexture.new()
 }
 
@@ -78,5 +81,4 @@ func _on_Retry_pressed():
 ###########################
 
 func update_power_up( power_up ):
-	print( "lolz", power_ups_icons[power_up] )
 	power_up_wrapper.set_texture( power_ups_icons[power_up] )

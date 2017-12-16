@@ -1,13 +1,10 @@
 extends "res://Ennemies/Ennemy.gd"
 
-var bullet_scene = preload( "res://Bullet.tscn" )
-
 onready var los = get_node( "LineOfSight" )
 onready var at = get_node( "AttackTimer" )
 
 export( int ) var LOS_LENGTH = 500
 export( int ) var RELOAD_TIME = 1
-export( int ) var BULLET_SPEED = 300
 
 var _reloaded = true
 
@@ -31,16 +28,7 @@ func _fixed_process(delta):
 
 func shoot():
 	if _reloaded:
-		var b = bullet_scene.instance()
-		b.init( current_direction, BULLET_SPEED )
-		var pos = get_pos()
-		
-		if current_direction == Directions.right:
-			pos.x += character_size.x
-		else:
-			pos.x -= character_size.x
-		
-		Player.current_level.add_enemy( b, pos )
+		pop_bullet() # In Character
 		at.start()
 		_reloaded = false
 

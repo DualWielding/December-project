@@ -13,7 +13,10 @@ var current_pu = null setget set_power_up, get_power_up
 
 enum power_ups {
 	none,
-	laser
+	laser,
+	gun,
+	life,
+	frenzy
 }
 
 signal coins_updated( current_number )
@@ -40,3 +43,15 @@ func set_power_up( power_up ):
 
 func get_power_up():
 	return current_pu
+
+func rand_power_up():
+	randomize()
+	var rand = randi() % 4
+	if rand == 0:
+		set_power_up( power_ups.laser )
+	elif rand == 1:
+		set_power_up( power_ups.gun )
+	elif rand == 2:
+		set_power_up( power_ups.life )
+	elif rand == 3:
+		set_power_up( power_ups.frenzy )

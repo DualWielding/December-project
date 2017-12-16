@@ -36,9 +36,9 @@ func _collide_left():
 func _collide_right():
 	turn()
 
-func gets_hit( by ):
+func gets_hit( by, multiplicator=1.0 ):
 	set_kb()
-	velocity.y += HIT_KNOCKBACK.y
+	velocity.y += HIT_KNOCKBACK.y * multiplicator
 	if get_pos() > by.get_pos():
 		current_direction = Directions.right
 	else:

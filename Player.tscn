@@ -1,8 +1,11 @@
-[gd_scene load_steps=12 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://Laser.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Sprites/CircularLightShape.png" type="Texture" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Laser.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Sprites/Laser.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Sprites/Gun.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -105,10 +108,60 @@ GRAVITY = 1000
 WALK_SPEED = 300
 HIT_KNOCKBACK = Vector2( 800, -500 )
 VELOCITY_DEATH_CEIL = 900
+BULLET_SPEED = 500
 JUMP_SPEED = 75
 MAX_JUMP_SPEED = 450
 ATTACK_ANIMATION_SPEED = 1.5
 INVULNERABILITY_TIME_ON_ATTACK = 0.3
+FRENZY_KB_MOLTIPLICATOR = 2.5
+GUN_TIME_BETWEEN_BULLETS = 0.6
+GUN_BULLETS_NUMBER = 3
+
+[node name="FrenzyAura" type="Light2D" parent="."]
+
+visibility/visible = false
+enabled = true
+editor_only = false
+texture = ExtResource( 2 )
+offset = Vector2( 0, 0 )
+scale = 1.0
+color = Color( 1, 0, 0, 1 )
+energy = 1.0
+mode = 0
+range/height = 0.0
+range/z_min = -1024
+range/z_max = 1024
+range/layer_min = 0
+range/layer_max = 0
+range/item_mask = 1
+shadow/enabled = false
+shadow/color = Color( 0, 0, 0, 0 )
+shadow/buffer_size = 2048
+shadow/esm_multiplier = 80.0
+shadow/item_mask = 1
+
+[node name="LifeAura" type="Light2D" parent="."]
+
+visibility/visible = false
+enabled = true
+editor_only = false
+texture = ExtResource( 2 )
+offset = Vector2( 0, 0 )
+scale = 1.0
+color = Color( 0.03125, 0, 1, 1 )
+energy = 1.0
+mode = 0
+range/height = 0.0
+range/z_min = -1024
+range/z_max = 1024
+range/layer_min = 0
+range/layer_max = 0
+range/item_mask = 1
+shadow/enabled = false
+shadow/color = Color( 0, 0, 0, 0 )
+shadow/buffer_size = 2048
+shadow/esm_multiplier = 80.0
+shadow/item_mask = 1
 
 [node name="AttackArea" type="Area2D" parent="."]
 
@@ -164,6 +217,7 @@ _update_shape_index = 0
 
 [node name="ColorFrame" type="ColorFrame" parent="PickUpArea"]
 
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -196,6 +250,7 @@ _update_shape_index = 0
 
 [node name="ColorFrame" type="ColorFrame" parent="CollectibleArea"]
 
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -208,7 +263,7 @@ color = Color( 0, 1, 0.0390625, 0.0710196 )
 
 [node name="Sprite" type="Sprite" parent="."]
 
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -260,14 +315,22 @@ wait_time = 1.0
 one_shot = false
 autostart = false
 
+[node name="GunTimer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
 [node name="Laser" type="Sprite" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 0, -32 )
 transform/scale = Vector2( 1e-05, 1 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 centered = false
 modulate = Color( 0.5, 0, 1, 0.120196 )
-script/script = ExtResource( 3 )
+script/script = ExtResource( 4 )
 LASER_ANIMATION_SPEED = 0.7
 LASER_DURATION = 0.4
 
@@ -310,6 +373,16 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+
+[node name="WeaponLaser" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 5 )
+
+[node name="WeaponGun" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 6 )
 
 [connection signal="body_enter" from="AttackArea" to="." method="_on_AttackArea_body_enter"]
 

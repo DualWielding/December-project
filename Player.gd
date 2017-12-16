@@ -1,22 +1,33 @@
 extends "res://Character.gd"
 
+onready var life_aura = get_node( "LifeAura" )
+onready var frenzy_aura = get_node( "FrenzyAura" )
+onready var weapon_laser = get_node( "WeaponLaser" )
+onready var weapon_gun = get_node( "WeaponGun" )
 onready var holding_container = get_node( "HoldingContainer" )
 onready var attack_area = get_node( "AttackArea" )
 onready var pu_area = get_node( "PickUpArea" )
 onready var ap = get_node( "AnimationPlayer" )
 onready var invul_timer = get_node( "InvulnerabilityTimer" )
+onready var gun_timer = get_node( "GunTimer" )
 onready var laser = get_node( "Laser" )
 
 export( int ) var JUMP_SPEED = 75
 export( int ) var MAX_JUMP_SPEED = 450
 export( float ) var ATTACK_ANIMATION_SPEED = 1.0
 export( float ) var INVULNERABILITY_TIME_ON_ATTACK = 0.3
+export( float ) var FRENZY_KB_MOLTIPLICATOR = 2.5
+export( float ) var GUN_TIME_BETWEEN_BULLETS = 0.6
+export( int ) var GUN_BULLETS_NUMBER = 3
 
 var _attacking = false setget set_attacking, is_attacking
 var _jumping = false setget set_jumping, is_jumping
 var _invulnerable = false setget set_invulnerability, is_invulnerable
+var _frenzy = false setget set_frenzy, get_frenzy
+var _extra_life = false setget set_extra_life, get_extra_life
 
 var holding = null
+var bullets_left = 0
 
 
 func _ready():
@@ -24,7 +35,10 @@ func _ready():
 	
 	Player.character = self
 	
+	Player.connect( "power_up_gained", self, "show_power_up" )
 	invul_timer.connect( "timeout", self, "set_invulnerability", [false] )
+	gun_timer.connect( "timeout", self, "shoot" )
+	gun_timer.set_wait_time( GUN_TIME_BETWEEN_BULLETS )
 	
 	set_idle()
 	set_process_input( true )
@@ -82,7 +96,10 @@ func _collide_up():
 
 func die():
 	if not is_invulnerable():
-		Player.ui.show_death_screen()
+		if get_extra_life():
+			set_extra_life( false )
+		else:
+			Player.ui.show_death_screen()
 
 
 #############
@@ -113,7 +130,11 @@ func attack( direction ):
 
 func _on_AttackArea_body_enter( body ):
 	if body.is_in_group( "enemy" ):
-		body.gets_hit( self )
+		if get_frenzy():
+			body.gets_hit( self, FRENZY_KB_MOLTIPLICATOR )
+			set_frenzy( false )
+		else:
+			body.gets_hit( self, 1.0 )
 		set_invulnerability( true, INVULNERABILITY_TIME_ON_ATTACK )
 	elif body.is_in_group( "bullet" ):
 		body.change_direction()
@@ -205,10 +226,10 @@ func collect( collectible ):
 func use_item():
 	if has_item():
 		var item = holding_container.get_children()[0]
-		item.use()
-		holding_container.remove_child( item )
-		item.queue_free()
-		holding = null
+		if item.use():
+			holding_container.remove_child( item )
+			item.queue_free()
+			holding = null
 
 
 #############
@@ -229,17 +250,70 @@ func is_invulnerable():
 
 
 func get_random_power_up():
-	var rand = randi() % 1
-	var pu
-	if rand == 0:
-		pu = Player.power_ups.laser
-	
-	Player.set_power_up( pu )
+	Player.rand_power_up()
+
 
 func use_power_up():
 	if Player.get_power_up() == Player.power_ups.laser:
 		laser.activate( current_direction )
-		Player.set_power_up( Player.power_ups.none )
+	elif Player.get_power_up() == Player.power_ups.gun:
+		bullets_left = GUN_BULLETS_NUMBER
+		shoot()
+		gun_timer.start()
+	elif Player.get_power_up() == Player.power_ups.life:
+		set_extra_life( true )
+	elif Player.get_power_up() == Player.power_ups.frenzy:
+		set_frenzy( true )
+	Player.set_power_up( Player.power_ups.none )
+
+
+func show_power_up( pu ):
+	weapon_laser.hide()
+	weapon_gun.hide()
+	
+	if pu == Player.power_ups.laser:
+		weapon_laser.show()
+	elif pu == Player.power_ups.gun:
+		weapon_gun.show()
+
+# Frenzy
+
+func set_frenzy( boolean ):
+	_frenzy = boolean
+	if _frenzy:
+		frenzy_aura.show()
+	else:
+		frenzy_aura.hide()
+
+
+func get_frenzy():
+	return _frenzy
+
+
+# Extra life
+
+func set_extra_life( boolean ):
+	_extra_life = boolean
+	if _extra_life:
+		life_aura.show()
+	else: 
+		life_aura.hide()
+
+func get_extra_life():
+	return _extra_life
+
+
+# Gun
+
+func shoot():
+	if bullets_left == 0:
+		gun_timer.stop()
+		return
+	
+	bullets_left -= 1
+	
+	pop_bullet() # In character
+
 
 #############
 # SAVING

@@ -31,8 +31,10 @@ func activate( direction ):
 
 func desactivate( animation_name ):
 	ap.play_backwards( animation_name )
-	get_parent().set_idle()
+	ap.connect( "finished", get_parent(), "set_idle" )
 
 func _on_Area2D_body_enter( body ):
 	if body.is_in_group( "enemy" ):
 		body.die()
+	if body.is_in_group( "bullet" ):
+		body.queue_free()

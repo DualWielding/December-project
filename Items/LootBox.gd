@@ -8,3 +8,5 @@ func _ready():
 func use():
 	if Player.update_coins( -COST_TO_OPEN ):
 		Player.character.get_random_power_up()
+		return true
+	return false
