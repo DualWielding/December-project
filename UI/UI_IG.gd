@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+onready var buy_coins = get_node( "BuyCoins" )
 onready var coins_number = get_node( "CoinsNumber" )
 onready var death_screen = get_node( "DeathScreen" )
 onready var power_up_wrapper = get_node( "PowerUpWrapper" )
@@ -25,6 +26,9 @@ func _ready():
 	death_screen.set_size( _window_size )
 	death_screen.get_node( "Quit" ).set_pos( Vector2( _window_size.x/3, _window_size.y/10 * 9 ) )
 	death_screen.get_node( "Retry" ).set_pos( Vector2( _window_size.x/3 * 2, _window_size.y/10 * 9 ) )
+	
+	# BUY COINS
+	buy_coins.set_pos( Vector2( _window_size.x / 2 - buy_coins.get_node( "Frame" ).get_size().x / 2, _window_size.y / 2 ) )
 
 
 ##########################
@@ -33,7 +37,22 @@ func _ready():
 
 func update_coins( current_amount ):
 	coins_number.set_text( str( "Coins: ", current_amount ) )
-	
+
+
+func show_buy_coins():
+	buy_coins.show()
+
+
+func hide_buy_coins():
+	buy_coins.hide()
+
+
+func _on_CloseBuyCoins_pressed():
+	hide_buy_coins()
+
+
+func _on_RichTextLabel_meta_clicked( meta ):
+	OS.shell_open( meta )
 
 ###########################
 # DEATH

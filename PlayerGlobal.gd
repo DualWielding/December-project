@@ -29,7 +29,7 @@ func update_coins( amount ):
 		return false
 
 func buy_coins():
-	pass #TODO
+	ui.show_buy_coins()
 
 func get_coins():
 	return coins
