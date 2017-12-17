@@ -1,5 +1,6 @@
 extends "res://Character.gd"
 
+onready var sprite = get_node ( "Sprite" )
 onready var life_aura = get_node( "LifeAura" )
 onready var frenzy_aura = get_node( "FrenzyAura" )
 onready var weapon_laser = get_node( "WeaponLaser" )
@@ -7,6 +8,7 @@ onready var weapon_gun = get_node( "WeaponGun" )
 onready var holding_container = get_node( "HoldingContainer" )
 onready var attack_area = get_node( "AttackArea" )
 onready var pu_area = get_node( "PickUpArea" )
+onready var atck_p = get_node( "AttackPlayer" )
 onready var ap = get_node( "AnimationPlayer" )
 onready var invul_timer = get_node( "InvulnerabilityTimer" )
 onready var gun_timer = get_node( "GunTimer" )
@@ -69,16 +71,25 @@ func _fixed_process( delta ):
 		return
 	
 	elif (is_on_v_moving_platform or on_floor) and can_move and Input.is_action_pressed( "jump" ):
-		jump()
+		if current_direction == Directions.right:
+			jump_right()
+		else:
+			jump_left()
 	
 	if Input.is_action_pressed( "walk_left" ):
-		current_direction = Directions.left
-		set_walking()
+		if not is_walking() or current_direction != Directions.left or not ap.is_playing():
+			set_walking_left()
 	elif Input.is_action_pressed( "walk_right" ):
-		current_direction = Directions.right
-		set_walking()
+		if not is_walking() or current_direction != Directions.right or not ap.is_playing():
+			set_walking_right()
 	else:
 		set_idle()
+		ap.stop_all()
+		if not on_floor:
+			sprite.set_frame( 14 )
+		else:
+			sprite.set_frame( 11 )
+		
 	
 	if is_jumping() and Input.is_action_pressed( "jump" ):
 		if velocity.y > -MAX_JUMP_SPEED:
@@ -87,12 +98,13 @@ func _fixed_process( delta ):
 			set_jumping( false )
 
 func _additional_general_collision_behaviour():
-	if get_collider().is_in_group( "enemy" ):
+	if get_collider().is_in_group( "enemy" ) or get_collider().is_in_group( "bullet" ):
 		die()
 
 
 func _collide_up():
 	# Hit his head on the brick wall and die
+	sprite.get_node( "Sprite" ).show() #Blood
 	die()
 
 
@@ -101,7 +113,33 @@ func die():
 		if get_extra_life():
 			set_extra_life( false )
 		else:
-			Player.ui.show_death_screen()
+			if current_direction == Directions.right:
+				ap.play( "die_right" )
+			else:
+				ap.play( "die_left" )
+			set_invulnerability( true )
+			set_disabled()
+			ap.connect( "finished", Player.ui, "show_death_screen" )
+
+#############
+# WALKING
+#############
+
+func set_walking_right():
+	current_direction = Directions.right
+	if on_floor:
+		ap.play( "run_right" )
+	else:
+		sprite.set_flip_h( false )
+	set_walking()
+
+func set_walking_left():
+	current_direction = Directions.left
+	if on_floor:
+		ap.play( "run_left" )
+	else:
+		sprite.set_flip_h( true )
+	set_walking()
 
 
 #############
@@ -129,9 +167,9 @@ func attack_right():
 
 
 func attack( animation_name ):
-	ap.play( animation_name, -1, ATTACK_ANIMATION_SPEED )
+	atck_p.play( animation_name, -1, ATTACK_ANIMATION_SPEED )
 	set_attacking( true )
-	ap.connect( "finished", self, "set_attacking", [false], CONNECT_ONESHOT )
+	atck_p.connect( "finished", self, "set_attacking", [false], CONNECT_ONESHOT )
 
 
 func _on_AttackArea_body_enter( body ):
@@ -164,6 +202,18 @@ func set_jumping( boolean ):
 
 func is_jumping():
 	return _jumping
+
+
+func jump_right():
+	ap.stop()
+	ap.play( "jump_right" )
+	jump()
+
+
+func jump_left():
+	ap.stop()
+	ap.play( "jump_left" )
+	jump()
 
 
 func jump():
