@@ -22,6 +22,7 @@ GRAVITY = 1000
 WALK_SPEED = 120
 HIT_KNOCKBACK = Vector2( 800, -500 )
 VELOCITY_DEATH_CEIL = 900
+BULLET_SPEED = 300
 STARTING_DIRECTION = "Left"
 
 [node name="Sprite" type="Sprite" parent="."]
