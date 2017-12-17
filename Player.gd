@@ -18,7 +18,7 @@ export( float ) var ATTACK_ANIMATION_SPEED = 1.0
 export( float ) var INVULNERABILITY_TIME_ON_ATTACK = 0.3
 export( float ) var FRENZY_KB_MOLTIPLICATOR = 2.5
 export( float ) var GUN_TIME_BETWEEN_BULLETS = 0.6
-export( int ) var GUN_BULLETS_NUMBER = 3
+export( int ) var GUN_BULLETS_NUMBER = 1
 
 var _attacking = false setget set_attacking, is_attacking
 var _jumping = false setget set_jumping, is_jumping

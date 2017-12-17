@@ -958,6 +958,7 @@ transform/pos = Vector2( 3210, 1690 )
 WALK_SPEED = 0
 HIT_KNOCKBACK = Vector2( 400, -300 )
 STARTING_DIRECTION = "Right"
+RELOAD_TIME = 2
 
 [node name="ShootingEnnemy2" parent="Enemies" instance=ExtResource( 8 )]
 
