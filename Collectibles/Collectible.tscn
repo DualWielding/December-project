@@ -7,11 +7,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 32, 32 )
 
-[node name="Collectible" type="Sprite"]
-
-script/script = ExtResource( 1 )
-
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Collectible" type="Area2D"]
 
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
@@ -23,8 +19,11 @@ linear_damp = 0.1
 angular_damp = 1.0
 collision/layers = 4
 collision/mask = 4
+script/script = ExtResource( 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="Area2D" type="Sprite" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 shape = SubResource( 1 )
 trigger = false

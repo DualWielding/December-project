@@ -266,7 +266,7 @@ func has_item():
 #############
 
 func _on_CollectibleArea_area_enter( area ):
-	collect( area.get_parent() )
+	collect( area )
 
 
 func collect( collectible ):

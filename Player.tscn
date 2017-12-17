@@ -25,7 +25,7 @@ extents = Vector2( 32, 32 )
 custom_solver_bias = 0.0
 extents = Vector2( 32, 32 )
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=4]
 
 resource/name = "attack_left"
 length = 1.0
@@ -158,7 +158,7 @@ tracks/5/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1 ) ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=6]
 
 resource/name = "die_left"
 length = 0.5
@@ -205,7 +205,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=7]
 
 resource/name = "die_right"
 length = 0.5
@@ -252,7 +252,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=8]
 
 resource/name = "jump_left"
 length = 0.2
@@ -279,7 +279,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=9]
 
 resource/name = "jump_right"
 length = 0.2
@@ -306,16 +306,15 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=10]
 
 resource/name = "land_right"
 length = 1.0
 loop = false
 step = 0.1
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=11]
 
-resource/name = "run_left"
 length = 1.0
 loop = true
 step = 0.1
@@ -340,9 +339,8 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=12]
 
-resource/name = "run_right"
 length = 0.9
 loop = true
 step = 0.1
@@ -367,14 +365,13 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=13]
 
 custom_solver_bias = 0.0
 extents = Vector2( 32, 32 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=14]
 
-resource/name = "shoot_left"
 length = 1.0
 loop = false
 step = 0.1
@@ -389,9 +386,8 @@ tracks/0/keys = {
 "values": [ Vector2( 1e-05, 1 ), Vector2( -8, 1 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=15]
 
-resource/name = "shoot_right"
 length = 1.0
 loop = false
 step = 0.1
@@ -620,7 +616,7 @@ _update_shape_index = 0
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/attack_left = SubResource( 9 )
+anims/attack_left = SubResource( 4 )
 anims/attack_right = SubResource( 5 )
 playback/active = true
 playback/speed = 1.0
@@ -632,13 +628,13 @@ autoplay = ""
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/die_left = SubResource( 15 )
-anims/die_right = SubResource( 16 )
-anims/jump_left = SubResource( 12 )
-anims/jump_right = SubResource( 13 )
-anims/land_right = SubResource( 14 )
-anims/run_left = SubResource( 10 )
-anims/run_right = SubResource( 11 )
+anims/die_left = SubResource( 6 )
+anims/die_right = SubResource( 7 )
+anims/jump_left = SubResource( 8 )
+anims/jump_right = SubResource( 9 )
+anims/land_right = SubResource( 10 )
+anims/run_left = SubResource( 11 )
+anims/run_right = SubResource( 12 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -678,7 +674,7 @@ LASER_DURATION = 0.4
 
 transform/pos = Vector2( 32, 32 )
 input/pickable = true
-shapes/0/shape = SubResource( 6 )
+shapes/0/shape = SubResource( 13 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -691,7 +687,7 @@ collision/mask = 4098
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Laser/Area2D"]
 
 visibility/visible = false
-shape = SubResource( 6 )
+shape = SubResource( 13 )
 trigger = false
 _update_shape_index = 0
 
@@ -707,8 +703,8 @@ autostart = false
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/shoot_left = SubResource( 7 )
-anims/shoot_right = SubResource( 8 )
+anims/shoot_left = SubResource( 14 )
+anims/shoot_right = SubResource( 15 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]

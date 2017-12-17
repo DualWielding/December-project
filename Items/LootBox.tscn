@@ -2,17 +2,20 @@
 
 [ext_resource path="res://Items/Item.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Items/LootBox.gd" type="Script" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Sprites/lootbox.png" type="Texture" id=3]
 
 [node name="LootBox" instance=ExtResource( 1 )]
 
-transform/rot = 45.0
-transform/scale = Vector2( 0.6, 0.6 )
+transform/pos = Vector2( 0, 14 )
 script/script = ExtResource( 2 )
 COST_TO_OPEN = 4
 
 [node name="Sprite" parent="."]
 
 texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" parent="."]
+
+transform/pos = Vector2( 1, 3 )
 
 
