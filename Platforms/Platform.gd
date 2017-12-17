@@ -42,7 +42,7 @@ func _fixed_process( delta ):
 	# Change direction if hitting another platform
 	if is_colliding():
 		var n = get_collision_normal()
-		if not get_collider().is_in_group( "character" ):
+		if not get_collider().is_in_group( "character" ) and not get_collider().is_in_group( "bullet" ):
 			direction_change()
 			dir_t.stop()
 			dir_t.start()

@@ -47,6 +47,16 @@ transform/pos = Vector2( 3195.87, 735.066 )
 SPEED = 130
 IS_MOVING_PLATFORM = true
 
+[node name="PatrolEndpoint7" parent="Platforms/Platform" instance=ExtResource( 4 )]
+
+transform/pos = Vector2( -31.174, -65.066 )
+transform/scale = Vector2( 0.2, 1 )
+
+[node name="PatrolEndpoint8" parent="Platforms/Platform" instance=ExtResource( 4 )]
+
+transform/pos = Vector2( 30.826, -65.066 )
+transform/scale = Vector2( 0.2, 1 )
+
 [node name="Platform4" parent="Platforms" instance=ExtResource( 3 )]
 
 transform/pos = Vector2( 530, 1760 )
@@ -547,14 +557,6 @@ transform/pos = Vector2( 2700, 670 )
 
 transform/pos = Vector2( 2930, 670 )
 
-[node name="PatrolEndpoint7" parent="PatrolEndpoints" instance=ExtResource( 4 )]
-
-transform/pos = Vector2( 3040, 670 )
-
-[node name="PatrolEndpoint8" parent="PatrolEndpoints" instance=ExtResource( 4 )]
-
-transform/pos = Vector2( 3350, 670 )
-
 [node name="PatrolEndpoint1" parent="PatrolEndpoints" instance=ExtResource( 4 )]
 
 transform/pos = Vector2( 2180, 930 )
@@ -924,37 +926,31 @@ transform/pos = Vector2( 1590, 800 )
 transform/pos = Vector2( 670, 290 )
 WALK_SPEED = 0
 HIT_KNOCKBACK = Vector2( 500, -400 )
-BULLET_SPEED = 300
 
 [node name="Ennemy1" parent="Enemies" instance=ExtResource( 7 )]
 
 transform/pos = Vector2( 2814.96, 667.482 )
 HIT_KNOCKBACK = Vector2( 500, -400 )
-BULLET_SPEED = 300
 
 [node name="Ennemy3" parent="Enemies" instance=ExtResource( 7 )]
 
 transform/pos = Vector2( 2930, 2270 )
 HIT_KNOCKBACK = Vector2( 500, -400 )
-BULLET_SPEED = 300
 
 [node name="Ennemy4" parent="Enemies" instance=ExtResource( 7 )]
 
 transform/pos = Vector2( 3390, 2400 )
 HIT_KNOCKBACK = Vector2( 500, -400 )
-BULLET_SPEED = 300
 
 [node name="Ennemy7" parent="Enemies" instance=ExtResource( 7 )]
 
 transform/pos = Vector2( 3260, 2140 )
 HIT_KNOCKBACK = Vector2( 500, -400 )
-BULLET_SPEED = 300
 
 [node name="Ennemy2" parent="Enemies" instance=ExtResource( 7 )]
 
 transform/pos = Vector2( 2240, 930 )
 HIT_KNOCKBACK = Vector2( 400, -300 )
-BULLET_SPEED = 300
 
 [node name="ShootingEnnemy" parent="Enemies" instance=ExtResource( 8 )]
 
@@ -1012,20 +1008,17 @@ RELOAD_TIME = 2
 transform/pos = Vector2( 6340, 4060 )
 WALK_SPEED = 0
 HIT_KNOCKBACK = Vector2( 500, -300 )
-BULLET_SPEED = 300
 
 [node name="Ennemy6" parent="Enemies" instance=ExtResource( 7 )]
 
 transform/pos = Vector2( 4796.39, 3807.58 )
 WALK_SPEED = 100
 HIT_KNOCKBACK = Vector2( 500, -300 )
-BULLET_SPEED = 300
 
 [node name="Ennemy5" parent="Enemies" instance=ExtResource( 7 )]
 
 transform/pos = Vector2( 7100, 2980 )
 HIT_KNOCKBACK = Vector2( 500, -300 )
-BULLET_SPEED = 300
 
 [node name="ShootingEnnemy10" parent="Enemies" instance=ExtResource( 8 )]
 
