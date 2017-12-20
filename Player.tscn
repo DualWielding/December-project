@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=1]
+[gd_scene load_steps=23 format=1]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Sprites/CircularLightShape.png" type="Texture" id=2]
@@ -7,8 +7,6 @@
 [ext_resource path="res://Assets/Sprites/dropsplash.png" type="Texture" id=5]
 [ext_resource path="res://icon.png" type="Texture" id=6]
 [ext_resource path="res://Laser.gd" type="Script" id=7]
-[ext_resource path="res://Assets/Sprites/Laser.png" type="Texture" id=8]
-[ext_resource path="res://Assets/Sprites/Gun.png" type="Texture" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -88,8 +86,8 @@ tracks/5/imported = false
 tracks/5/keys = {
 "times": FloatArray( 0, 1 ),
 "transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1 ) ]
+"update": 1,
+"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1e-05 ) ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -154,8 +152,8 @@ tracks/5/imported = false
 tracks/5/keys = {
 "times": FloatArray( 0, 1 ),
 "transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1 ) ]
+"update": 1,
+"values": [ Vector2( 1, 1 ), Vector2( 1e-05, 1e-05 ) ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -475,7 +473,7 @@ shadow/item_mask = 1
 [node name="AttackArea" type="Area2D" parent="."]
 
 editor/display_folded = true
-transform/scale = Vector2( 1e-05, 1 )
+transform/scale = Vector2( 1e-05, 1e-05 )
 input/pickable = true
 shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -709,16 +707,6 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
-
-[node name="WeaponLaser" type="Sprite" parent="."]
-
-visibility/visible = false
-texture = ExtResource( 8 )
-
-[node name="WeaponGun" type="Sprite" parent="."]
-
-visibility/visible = false
-texture = ExtResource( 9 )
 
 [connection signal="body_enter" from="AttackArea" to="." method="_on_AttackArea_body_enter"]
 

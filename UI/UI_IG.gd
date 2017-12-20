@@ -3,6 +3,7 @@ extends CanvasLayer
 onready var buy_coins = get_node( "BuyCoins" )
 onready var coins_number = get_node( "CoinsNumber" )
 onready var death_screen = get_node( "DeathScreen" )
+onready var pause_screen = get_node( "PauseScreen" )
 onready var power_up_wrapper = get_node( "PowerUpWrapper" )
 
 var _window_size
@@ -24,14 +25,26 @@ func _ready():
 	Player.connect( "power_up_gained", self, "update_power_up" )
 	update_coins( Player.coins )
 	
+	set_process_unhandled_input( true )
+	
 	# DEATH SCREEN
-	death_screen.hide()
-	death_screen.set_size( _window_size )
-	death_screen.get_node( "Quit" ).set_pos( Vector2( _window_size.x/3, _window_size.y/10 * 9 ) )
-	death_screen.get_node( "Retry" ).set_pos( Vector2( _window_size.x/3 * 2, _window_size.y/10 * 9 ) )
+	for screen in [death_screen, pause_screen]:
+		screen.hide()
+		screen.set_size( _window_size )
+		screen.get_node( "Quit" ).set_pos( Vector2( _window_size.x/3, _window_size.y/10 * 9 ) )
+		screen.get_node( "Retry" ).set_pos( Vector2( _window_size.x/3 * 2, _window_size.y/10 * 9 ) )
 	
 	# BUY COINS
 	buy_coins.set_pos( Vector2( _window_size.x / 2 - buy_coins.get_node( "Frame" ).get_size().x / 2, _window_size.y / 2 ) )
+
+func _unhandled_input(event):
+	if event.is_action_pressed( "pause" ):
+		if get_tree().is_paused():
+			pause_screen.hide()
+			get_tree().set_pause( false )
+		else:
+			pause_screen.show()
+			get_tree().set_pause( true )
 
 
 ##########################
@@ -82,3 +95,11 @@ func _on_Retry_pressed():
 
 func update_power_up( power_up ):
 	power_up_wrapper.set_texture( power_ups_icons[power_up] )
+
+
+func _on_DeathScreen_visibility_changed():
+	if death_screen.is_visible(): death_screen.get_node( "Retry" ).grab_focus()
+
+
+func _on_PauseScreen_visibility_changed():
+	if pause_screen.is_visible(): pause_screen.get_node( "Retry" ).grab_focus()

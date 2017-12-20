@@ -9,7 +9,6 @@ script/script = ExtResource( 2 )
 WALK_SPEED = 300
 LOS_LENGTH = 500
 RELOAD_TIME = 1
-BULLET_SPEED = 300
 
 [node name="LineOfSight" type="RayCast2D" parent="."]
 
@@ -22,7 +21,14 @@ type_mask = 15
 
 process_mode = 1
 wait_time = 1.0
-one_shot = false
+one_shot = true
+autostart = false
+
+[node name="PrimoTimer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 0.1
+one_shot = true
 autostart = false
 
 

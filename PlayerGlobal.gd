@@ -10,6 +10,7 @@ var character
 var ui
 var checkpoint = null #DO NOT FORGET TO CLEAN THE CHECKPOINT AT LVL CHANGE
 var current_pu = null setget set_power_up, get_power_up
+var desactivated_coins = []
 
 enum power_ups {
 	none,

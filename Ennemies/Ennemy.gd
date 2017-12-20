@@ -11,11 +11,6 @@ func _ready():
 		current_direction = Directions.right
 	
 	add_to_group( "enemy" )
-	set_fixed_process( true )
-
-func _fixed_process(delta):
-	if is_colliding() and get_collider().is_in_group( "player" ):
-		get_collider().die()
 
 func turn():
 	if current_direction == Directions.left:

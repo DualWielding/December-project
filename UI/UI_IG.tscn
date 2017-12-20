@@ -83,6 +83,53 @@ shortcut = null
 text = "Quit"
 flat = false
 
+[node name="PauseScreen" type="ColorFrame" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+color = Color( 0, 0, 0, 0.453569 )
+
+[node name="Retry" type="Button" parent="PauseScreen"]
+
+rect/scale = Vector2( 2.3, 2.3 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 12.0
+margin/bottom = 20.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Retry"
+flat = false
+
+[node name="Quit" type="Button" parent="PauseScreen"]
+
+rect/scale = Vector2( 2.3, 2.3 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 12.0
+margin/bottom = 20.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Quit"
+flat = false
+
 [node name="PowerUpWrapper" type="TextureFrame" parent="."]
 
 rect/scale = Vector2( 0.1, 0.1 )
@@ -170,9 +217,17 @@ shortcut = null
 text = "x"
 flat = false
 
+[connection signal="visibility_changed" from="DeathScreen" to="." method="_on_DeathScreen_visibility_changed"]
+
 [connection signal="pressed" from="DeathScreen/Retry" to="." method="_on_Retry_pressed"]
 
 [connection signal="pressed" from="DeathScreen/Quit" to="." method="_on_Quit_pressed"]
+
+[connection signal="visibility_changed" from="PauseScreen" to="." method="_on_PauseScreen_visibility_changed"]
+
+[connection signal="pressed" from="PauseScreen/Retry" to="." method="_on_Retry_pressed"]
+
+[connection signal="pressed" from="PauseScreen/Quit" to="." method="_on_Quit_pressed"]
 
 [connection signal="meta_clicked" from="BuyCoins/RichTextLabel" to="." method="_on_RichTextLabel_meta_clicked"]
 

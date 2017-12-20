@@ -3,8 +3,6 @@ extends "res://Character.gd"
 onready var sprite = get_node ( "Sprite" )
 onready var life_aura = get_node( "LifeAura" )
 onready var frenzy_aura = get_node( "FrenzyAura" )
-onready var weapon_laser = get_node( "WeaponLaser" )
-onready var weapon_gun = get_node( "WeaponGun" )
 onready var holding_container = get_node( "HoldingContainer" )
 onready var attack_area = get_node( "AttackArea" )
 onready var pu_area = get_node( "PickUpArea" )
@@ -37,7 +35,6 @@ func _ready():
 	
 	Player.character = self
 	
-	Player.connect( "power_up_gained", self, "show_power_up" )
 	invul_timer.connect( "timeout", self, "set_invulnerability", [false] )
 	gun_timer.connect( "timeout", self, "shoot" )
 	gun_timer.set_wait_time( GUN_TIME_BETWEEN_BULLETS )
@@ -85,7 +82,7 @@ func _fixed_process( delta ):
 	else:
 		set_idle()
 		ap.stop_all()
-		if not on_floor:
+		if not on_floor and not is_on_v_moving_platform:
 			sprite.set_frame( 14 )
 		else:
 			sprite.set_frame( 11 )
@@ -128,7 +125,7 @@ func die():
 func set_walking_right():
 	current_direction = Directions.right
 	if on_floor:
-		ap.play( "run_right" )
+		ap.play( "run_right", 1.5 )
 	else:
 		sprite.set_flip_h( false )
 	set_walking()
@@ -136,7 +133,7 @@ func set_walking_right():
 func set_walking_left():
 	current_direction = Directions.left
 	if on_floor:
-		ap.play( "run_left" )
+		ap.play( "run_left", 1.5 )
 	else:
 		sprite.set_flip_h( true )
 	set_walking()
@@ -272,6 +269,7 @@ func _on_CollectibleArea_area_enter( area ):
 func collect( collectible ):
 	if collectible.is_in_group( "coin" ):
 		Player.update_coins( 1 )
+		collectible.desactivate()
 		collectible.queue_free()
 
 
@@ -284,7 +282,6 @@ func use_item():
 		var item = holding_container.get_children()[0]
 		if item.use():
 			holding_container.remove_child( item )
-			item.queue_free()
 			holding = null
 
 
@@ -292,7 +289,7 @@ func use_item():
 # POWER UPS
 #############
 
-func set_invulnerability( boolean, time=0.0 ):
+func set_invulnerability( boolean, time=INVULNERABILITY_TIME_ON_ATTACK ):
 	if not boolean:
 		_invulnerable = false
 	else:
@@ -321,16 +318,6 @@ func use_power_up():
 	elif Player.get_power_up() == Player.power_ups.frenzy:
 		set_frenzy( true )
 	Player.set_power_up( Player.power_ups.none )
-
-
-func show_power_up( pu ):
-	weapon_laser.hide()
-	weapon_gun.hide()
-	
-	if pu == Player.power_ups.laser:
-		weapon_laser.show()
-	elif pu == Player.power_ups.gun:
-		weapon_gun.show()
 
 # Frenzy
 
